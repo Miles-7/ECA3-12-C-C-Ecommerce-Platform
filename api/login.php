@@ -1,5 +1,4 @@
-<?php
-// handle login logic, return JSON
+
 
 // 1. Headers
 header('Content-Type: application/json');
