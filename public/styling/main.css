@@ -1,168 +1,339 @@
-/* Main navigation container */
-
-*{
-    margin:0px;
-    padding:0px;
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
+/* ── Navigation ── */
 .main-nav {
-    background-color: #556B2F;    /* Olive green navigation */
-    padding: 1rem;              
+    background-color: #556B2F;
+    padding: 1rem;
 }
 
 .main-nav ul {
-    list-style: none;          
-    display: flex;             
-    gap: 2rem;                
+    list-style: none;
+    display: flex;
+    gap: 2rem;
     padding: 0;
 }
 
-/* Navigation links */
 .main-nav a {
-    color: #F5F5DC;               /* Beige text for contrast */
-    text-decoration: none;      
+    color: #F5F5DC;
+    text-decoration: none;
     font-weight: 500;
     transition: color 0.3s ease;
 }
 
 .main-nav a:hover {
-    color: #D4E7C5;              /* Light sage on hover */
+    color: #D4E7C5;
     text-decoration: underline;
 }
 
-
-/* Vuka Market Branding */
-.brand {
-    text-align: center;
-    margin-bottom: 1.2rem;
-}
-
-.brand-name {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #556B2F;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.brand-tagline {
-    font-size: 0.85rem;
-    color: #8B9A7A;
-    font-style: italic;
-    margin-top: 0.2rem;
-    letter-spacing: 2px;
-}
-
-/* sign up & login page styling */
+/* ── Auth Page Layout ── */
 .auth-page {
-    background: linear-gradient(135deg, #556B2F 0%, #3C4A2F 100%);  /* Olive green gradient */
     min-height: 100vh;
+    display: flex;
+    align-items: stretch;
+    background: #f4f4ee;
+}
+
+.auth-wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* ── Left Branding Panel ── */
+.auth-panel-left {
+    width: 42%;
+    background: linear-gradient(160deg, #3C4A2F 0%, #556B2F 50%, #6B8E23 100%);
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
 }
 
-.container{
-    background-color: #FAFAF5;   /* Off-white with slight warmth */
-    width: 450px;
-    padding: 2.5rem;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(60, 74, 47, 0.4);  /* Olive shadow */
+.auth-panel-left::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+}
+
+.auth-panel-left::after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    left: -60px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+}
+
+.panel-content {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+}
+
+.logo-mark {
+    width: 60px;
+    height: 60px;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.panel-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 0.4rem;
+}
+
+.panel-sub {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.65);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 2rem;
+}
+
+.panel-divider {
+    width: 50px;
+    height: 3px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+}
+
+.panel-desc {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.7;
+    max-width: 300px;
+    margin-bottom: 2.5rem;
+}
+
+.panel-stats {
+    display: flex;
+    gap: 2rem;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #D4E7C5;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ── Right Form Panel ── */
+.auth-panel-right {
+    width: 58%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    background: #fafaf5;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 420px;
+}
+
+.form-header {
+    margin-bottom: 2.5rem;
 }
 
 .form-title {
-    font-size: 2rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
     font-weight: 700;
-    color: #2D3A1F;              /* Dark olive for text */
-    margin-bottom: 2rem;
-    text-align: center;
+    color: #2D3A1F;
+    margin-bottom: 0.4rem;
 }
 
+.form-subtitle {
+    font-size: 0.95rem;
+    color: #8B9A7A;
+}
+
+/* ── Form Fields ── */
 form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.4rem;
+    margin-bottom: 1.5rem;
 }
 
 .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.input-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #4A5C38;
+    letter-spacing: 0.3px;
+}
+
+.input-wrap {
     position: relative;
     display: flex;
     align-items: center;
 }
 
-.input-group i {
+.input-wrap i {
     position: absolute;
-    left: 15px;
-    color: #6B8E23;              /* Olive drab for icons */
-    font-size: 1.2rem;
+    left: 14px;
+    color: #8B9A7A;
+    font-size: 1.1rem;
     pointer-events: none;
+    transition: color 0.3s;
 }
 
-.input-group input {
+.input-wrap input {
     width: 100%;
-    padding: 15px 15px 15px 45px;
-    border: 2px solid #D4E7C5;   /* Light sage border */
+    padding: 14px 14px 14px 42px;
+    border: 1.5px solid #D9E6C8;
     border-radius: 10px;
-    font-size: 1rem;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
     outline: none;
-    transition: all 0.3s ease;
-    background-color: #FFFFFF;
+    background: #fff;
+    color: #2D3A1F;
+    transition: all 0.25s ease;
 }
 
-.input-group input:focus {
-    border-color: #6B8E23;       /* Olive drab on focus */
-    box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.15);  /* Soft olive glow */
+.input-wrap input::placeholder {
+    color: #b0bea0;
 }
 
-.input-group input::placeholder {
-    color: #8B9A7A;              /* Muted olive gray */
+.input-wrap input:focus {
+    border-color: #6B8E23;
+    box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.12);
 }
 
-.input-group label {
-    display: none; /* Hidden since we're using placeholders */
+.input-wrap input:focus + i,
+.input-wrap:focus-within i {
+    color: #6B8E23;
 }
 
+/* ── Submit Button ── */
 .submit-btn {
-    background: linear-gradient(135deg, #6B8E23 0%, #556B2F 100%);  /* Olive gradient button */
-    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background: linear-gradient(135deg, #6B8E23 0%, #556B2F 100%);
+    color: #fff;
     padding: 15px;
     border: none;
     border-radius: 10px;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
+    font-family: 'Inter', sans-serif;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: all 0.25s ease;
+    margin-top: 0.4rem;
+    letter-spacing: 0.3px;
 }
 
 .submit-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(107, 142, 35, 0.4);  /* Olive shadow on hover */
+    box-shadow: 0 8px 24px rgba(107, 142, 35, 0.35);
 }
 
 .submit-btn:active {
     transform: translateY(0);
 }
 
+.submit-btn i {
+    font-size: 1.1rem;
+    transition: transform 0.2s;
+}
+
+.submit-btn:hover i {
+    transform: translateX(3px);
+}
+
+/* ── Bottom Link ── */
 .change-auth {
     text-align: center;
-    margin-top: 1.5rem;
-    color: #5A6B4A;              /* Muted olive text */
-    font-size: 0.95rem;
+    color: #8B9A7A;
+    font-size: 0.9rem;
+    margin-top: 1.2rem;
 }
 
 .change-auth a {
-    color: #6B8E23;              /* Olive drab links */
+    color: #556B2F;
     text-decoration: none;
     font-weight: 600;
-    transition: color 0.3s ease;
+    transition: color 0.2s;
 }
 
 .change-auth a:hover {
-    color: #556B2F;              /* Darker olive on hover */
+    color: #6B8E23;
     text-decoration: underline;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .auth-wrapper {
+        flex-direction: column;
+    }
+
+    .auth-panel-left {
+        width: 100%;
+        padding: 2rem;
+        min-height: auto;
+    }
+
+    .panel-title {
+        font-size: 2rem;
+    }
+
+    .auth-panel-right {
+        width: 100%;
+        padding: 2rem 1.5rem;
+    }
 }
