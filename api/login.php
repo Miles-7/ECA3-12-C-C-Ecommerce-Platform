@@ -1,85 +1,105 @@
-<?php
-// handle login logic, return JSON
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vuka Market | Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styling/main.css">
+</head>
 
-// 1. Headers
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');  
-header('Access-Control-Allow-Headers: Content-Type');
+<body class="auth-page">
 
-// 2. include database
-require_once '../config/database.php';
+<div class="auth-wrapper">
+    <div class="auth-panel-left">
+        <div class="panel-content">
+            <div class="logo-mark">V</div>
+            <h1 class="panel-title">Vuka Market</h1>
+            <p class="panel-sub">Rise. Sell. Thrive.</p>
+            <div class="panel-divider"></div>
+            <p class="panel-desc">South Africa's C-2-C marketplace built for the hustle. Connect, sell, and grow your business digitally.</p>
+            <div class="panel-stats">
+                <div class="stat">
+                    <span class="stat-num">R900B</span>
+                    <span class="stat-label">Township Economy</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-num">100%</span>
+                    <span class="stat-label">Local Platform</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-// 3. Get JSON input
-$json = file_get_contents('php://input');
-$data = json_decode($json, true);
+    <div class="auth-panel-right">
+        <div class="form-container">
+            <div class="form-header">
+                <h2 class="form-title">Welcome back</h2>
+                <p class="form-subtitle">Sign in to your Vuka account</p>
+            </div>
 
-// 4. Validate input 
-if(!isset($data['email']) || !isset($data['password'])){  
-    echo json_encode([
-        'success' => false,
-        'message' => 'All fields are required'
-    ]);
-    exit;
-}
+            <form id="loginForm" method="post" action="">
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-wrap">
+                        <i class="ri-mail-line"></i>
+                        <input type="email" name="email" id="email" placeholder="youremail@example.com" required>
+                    </div>
+                </div>
 
-// Get and sanitize data
-$email = trim($data['email']);
-$password = $data['password'];
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrap">
+                        <i class="ri-lock-line"></i>
+                        <input type="password" name="password" id="password" placeholder="Enter your password" required>
+                    </div>
+                </div>
 
+                <button type="submit" class="submit-btn">
+                    <span>Login</span>
+                    <i class="ri-arrow-right-line"></i>
+                </button>
+            </form>
 
+            <div class="change-auth">
+                Don't have an account? <a href="register.php">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-// 5. Look for user in database
-try{
-    $sql = 'SELECT * FROM users WHERE email = :email';
-    // prepare my statement / get my query ready to run
-    // stmt is my prepared statement which I will execute
-    $stmt = $db->prepare($sql); 
-    $stmt->execute([':email' => $email]);
+<script>
+    const loginForm = document.getElementById('loginForm');
 
-    $user = $stmt->fetch(); // getting the user row (can check the password as well if I have the row)
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-    // Verify that the user actually exists
-    if(!$user){
-        echo json_encode([
-            'success' => false, // if the user does not exist 
-            'message' => 'Invalid email or password'
-        ]);
-        exit;
-    }
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-    // Check that the provided password is correct, if the user does exist
-    // I will check if the password matches by using the built in password_verify() PhP function
-    if(!password_verify($password, $user['password'])){
-        echo json_encode([
-            'success' => false,
-            'message' => 'Invalid email or password'
-        ]);
-        exit;
-    }  // ✅ Added closing brace
+        const formData = { email, password };
 
-    // If the login is successful, the session will be started
-    session_start();  
-    $_SESSION['user_id'] = $user['id'];
-    $_SESSION['user_name'] = $user['name'];
-    $_SESSION['user_email'] = $user['email'];
+        try {
+            const response = await fetch('../../api/login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
 
-    // Success response after a successful login has been verified 
-    echo json_encode([
-        'success' => true,
-        'message' => 'Login successful',  
-        'user' => [
-            'id' => $user['id'],
-            'name' => $user['name'],
-            'email' => $user['email'] 
-        ]
-    ]);
+            const result = await response.json();
 
-} catch(PDOException $e){
-    echo json_encode([
-        'success' => false,
-        'message' => 'Login failed: ' . $e->getMessage()  
-    ]);
-}
+            if (result.success) {
+                alert('Login successful! Welcome ' + result.user.name);
+                window.location.href = '../index.php';
+            } else {
+                alert('Error: ' + result.message);
+            }
+        } catch (error) {
+            alert('Error: ' + error.message);
+        }
+    });
+</script>
 
-?>
+</body>
+</html>
