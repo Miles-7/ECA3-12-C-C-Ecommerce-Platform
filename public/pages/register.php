@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Vuka Market | Register</title>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="../styling/main.css">
 </head>
@@ -11,6 +11,10 @@
 <body class="auth-page">
 
 <div class="container" id="sign-up">
+    <div class="brand">
+        <h2 class="brand-name">Vuka Market</h2>
+        <p class="brand-tagline">Rise. Sell. Thrive.</p>
+    </div>
     <h1 class="form-title">Register</h1>
     <form id="registerForm" method="post" action="">
         <div class="input-group">
@@ -37,22 +41,18 @@
     <div class="change-auth"> 
         Already have an account? <a href="login.php">Sign In</a>
     </div>
-
 </div>
 
 <script>
     const registerForm = document.getElementById('registerForm');
 
-    // listener for register form
     registerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // get form data
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        // create data object
         const formData = {
             name: name,
             email: email,
@@ -60,7 +60,6 @@
         };
 
         try {
-            // sending data to api 
             const response = await fetch('../../api/register.php', {
                 method: 'POST',
                 headers: {
@@ -69,10 +68,8 @@
                 body: JSON.stringify(formData)
             });
 
-            // get response 
             const result = await response.json();
 
-            // handle response
             if (result.success) {
                 alert('Registration successful! Redirecting to login...');
                 window.location.href = 'login.php'; 
