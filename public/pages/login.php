@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Vuka Market | Login</title>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="../styling/main.css">
 </head>
@@ -11,6 +11,10 @@
 <body class="auth-page">
 
 <div class="container" id="sign-up">
+    <div class="brand">
+        <h2 class="brand-name">Vuka Market</h2>
+        <p class="brand-tagline">Rise. Sell. Thrive.</p>
+    </div>
     <h1 class="form-title">Login</h1>
     <form id="loginForm" method="post" action="">
         <div class="input-group">
@@ -36,22 +40,18 @@
 <script>
     const loginForm = document.getElementById('loginForm');
 
-    // Listen for form submission
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Get form data
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        // Create data object
         const formData = {
             email: email,
             password: password
         };
 
         try {
-            // Send data to API
             const response = await fetch('../../api/login.php', {
                 method: 'POST',
                 headers: {
@@ -60,13 +60,10 @@
                 body: JSON.stringify(formData)
             });
 
-            // Get response
             const result = await response.json();
 
-            // Handle response
             if (result.success) {
                 alert('Login successful! Welcome ' + result.user.name);
-                // Redirect to home page or dashboard
                 window.location.href = '../index.php';  
             } else {
                 alert('Error: ' + result.message);

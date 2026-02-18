@@ -36,6 +36,28 @@ body {
 }
 
 
+/* Vuka Market Branding */
+.brand {
+    text-align: center;
+    margin-bottom: 1.2rem;
+}
+
+.brand-name {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #556B2F;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.brand-tagline {
+    font-size: 0.85rem;
+    color: #8B9A7A;
+    font-style: italic;
+    margin-top: 0.2rem;
+    letter-spacing: 2px;
+}
+
 /* sign up & login page styling */
 .auth-page {
     background: linear-gradient(135deg, #556B2F 0%, #3C4A2F 100%);  /* Olive green gradient */
