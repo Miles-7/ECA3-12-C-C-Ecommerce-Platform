@@ -1,82 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
-    <link rel="stylesheet" href="../styling/main.css">
-</head>
 
-<body class="auth-page">
 
-<div class="container" id="sign-up">
-    <h1 class="form-title">Login</h1>
-    <form id="loginForm" method="post" action="">
-        <div class="input-group">
-            <i class="ri-mail-fill"></i>
-            <input type="email" name="email" id="email" placeholder="youremail@example.com" required>
-            <label for="email">Email</label>
-        </div>
+// 1. Headers
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST');  
+header('Access-Control-Allow-Headers: Content-Type');
 
-        <div class="input-group">
-            <i class="ri-lock-fill"></i>
-            <input type="password" name="password" id="password" placeholder="Password" required>
-            <label for="password">Password</label>
-        </div>
+// 2. include database
+require_once '../config/database.php';
 
-        <button type="submit" class="submit-btn">Login</button>
-    </form>
+// 3. Get JSON input
+$json = file_get_contents('php://input');
+$data = json_decode($json, true);
 
-    <div class="change-auth"> 
-        Don't have an account? <a href="register.php">Sign Up!</a>
-    </div>
-</div>
+// 4. Validate input 
+if(!isset($data['email']) || !isset($data['password'])){  
+    echo json_encode([
+        'success' => false,
+        'message' => 'All fields are required'
+    ]);
+    exit;
+}
 
-<script>
-    const loginForm = document.getElementById('loginForm');
+// Get and sanitize data
+$email = trim($data['email']);
+$password = $data['password'];
 
-    // Listen for form submission
-    loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
 
-        // Get form data
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
 
-        // Create data object
-        const formData = {
-            email: email,
-            password: password
-        };
+// 5. Look for user in database
+try{
+    $sql = 'SELECT * FROM users WHERE email = :email';
+    // prepare my statement / get my query ready to run
+    // stmt is my prepared statement which I will execute
+    $stmt = $db->prepare($sql); 
+    $stmt->execute([':email' => $email]);
 
-        try {
-            // Send data to API
-            const response = await fetch('../../api/login.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
+    $user = $stmt->fetch(); // getting the user row (can check the password as well if I have the row)
 
-            // Get response
-            const result = await response.json();
+    // Verify that the user actually exists
+    if(!$user){
+        echo json_encode([
+            'success' => false, // if the user does not exist 
+            'message' => 'Invalid email or password'
+        ]);
+        exit;
+    }
 
-            // Handle response
-            if (result.success) {
-                alert('Login successful! Welcome ' + result.user.name);
-                // Redirect to home page or dashboard
-                window.location.href = '../index.php';  
-            } else {
-                alert('Error: ' + result.message);
-            }
+    // Check that the provided password is correct, if the user does exist
+    // I will check if the password matches by using the built in password_verify() PhP function
+    if(!password_verify($password, $user['password'])){
+        echo json_encode([
+            'success' => false,
+            'message' => 'Invalid email or password'
+        ]);
+        exit;
+    }  
 
-        } catch (error) {
-            alert('Error: ' + error.message);
-        }
-    });
-</script>
+    // If the login is successful, the session will be started
+    session_start();  
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['user_name'] = $user['name'];
+    $_SESSION['user_email'] = $user['email'];
 
-</body>
-</html>
+    // Success response after a successful login has been verified 
+    echo json_encode([
+        'success' => true,
+        'message' => 'Login successful',  
+        'user' => [
+            'id' => $user['id'],
+            'name' => $user['name'],
+            'email' => $user['email'] 
+        ]
+    ]);
+
+} catch(PDOException $e){
+    echo json_encode([
+        'success' => false,
+        'message' => 'Login failed: ' . $e->getMessage()  
+    ]);
+}
+
+?>
