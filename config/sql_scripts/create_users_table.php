@@ -13,10 +13,6 @@ $sql = "CREATE TABLE IF NOT EXISTS users(
 try {
     $db->exec($sql);
     echo "Users table created successfully!";
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     echo "Error creating table: " . $e->getMessage();
 }
-
-?>
-
-
