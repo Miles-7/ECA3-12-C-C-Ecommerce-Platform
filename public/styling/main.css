@@ -1,3 +1,95 @@
+/* Main navigation container */
+
+*{
+    margin:0px;
+    padding:0px;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    background-color: #FAFAF5;
+
+}
+
+.nav-item{
+    display: flex;
+    width:300px;
+    justify-content: space-between;
+
+}
+
+.nav-search {
+    flex-grow: 1;
+    max-width: 500px;
+    margin: 0 1rem;
+}
+
+#sell-item{
+    margin-left: 20px;
+}
+
+#logo {
+    height: 85px;
+    width: auto;
+    margin-right: 3rem;
+}
+
+
+#search-bar{
+    padding: 10px;
+    width: 100%;
+    
+}
+
+#search-btn{
+    padding:8px;
+}
+
+#sell-btn{
+    width: 50%;
+    border-radius:1px;
+    background: linear-gradient(135deg, #059669 0%, #556B2F 100%);
+    color: white;
+    padding: 5px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 300;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    
+    
+   
+}
+
+
+/* Register and Login Pages  */
+.auth-page {
+    background: linear-gradient(135deg, #059669 0%, #3C4A2F 100%);  
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container{
+    background-color: #FAFAF5;   /* Off-white with slight warmth */
+    width: 450px;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(60, 74, 47, 0.4);  /* Olive shadow */
+}
+
 .form-title {
     font-size: 2rem;
     font-weight: 700;
@@ -21,7 +113,7 @@ form {
 .input-group i {
     position: absolute;
     left: 15px;
-    color: #6B8E23;              /* Olive drab for icons */
+    color: #059669;              
     font-size: 1.2rem;
     pointer-events: none;
 }
@@ -29,7 +121,7 @@ form {
 .input-group input {
     width: 100%;
     padding: 15px 15px 15px 45px;
-    border: 2px solid #D4E7C5;   /* Light sage border */
+    border: 2px solid #D4E7C5;   
     border-radius: 10px;
     font-size: 1rem;
     outline: none;
@@ -38,20 +130,20 @@ form {
 }
 
 .input-group input:focus {
-    border-color: #6B8E23;       /* Olive drab on focus */
-    box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.15);  /* Soft olive glow */
+    border-color: #059669;       
+    box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.15);  
 }
 
 .input-group input::placeholder {
-    color: #8B9A7A;              /* Muted olive gray */
+    color: #8B9A7A;              
 }
 
 .input-group label {
-    display: none; /* Hidden since we're using placeholders */
+    display: none; 
 }
 
 .submit-btn {
-    background: linear-gradient(135deg, #6B8E23 0%, #556B2F 100%);  /* Olive gradient button */
+    background: linear-gradient(135deg, #059669 0%, #556B2F 100%);  /* Olive gradient button */
     color: #FFFFFF;
     padding: 15px;
     border: none;
@@ -79,7 +171,7 @@ form {
 }
 
 .change-auth a {
-    color: #6B8E23;              /* Olive drab links */
+    color: #059669;              /* Olive drab links */
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
@@ -88,4 +180,11 @@ form {
 .change-auth a:hover {
     color: #556B2F;              /* Darker olive on hover */
     text-decoration: underline;
+}
+
+
+.lang{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

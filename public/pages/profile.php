@@ -9,8 +9,7 @@
 
 <body>
 
-
-
+    This is the profile page
 
 </body>
 
