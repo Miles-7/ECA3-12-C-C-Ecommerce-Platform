@@ -15,7 +15,7 @@ if (!isset($_SESSION['user_id'])) {
 $page = $_GET['page'] ?? 'home';
 
 // For security purposes, a whitelist of the allowed pages
-$allowed_pages = ['home', 'profile', 'liked',];
+$allowed_pages = ['home', 'profile', 'liked', 'sell'];
 
 // check if the provided page via user input is in fact in the array of allowed pages
 if (!in_array($page, $allowed_pages)) {
@@ -54,6 +54,10 @@ if (!in_array($page, $allowed_pages)) {
                 require __DIR__ . '/pages/profile.php';
                 break;
 
+            case "sell":
+                require __DIR__ . '/pages/sell.php';
+                break;
+
             case "liked":
                 require __DIR__ . '/pages/liked.php';
                 break;
@@ -62,13 +66,10 @@ if (!in_array($page, $allowed_pages)) {
                 require __DIR__ . '/pages/profile.php';
                 break;
 
-            case "profile":
-                require __DIR__ . '/pages/profile.php';
+            case "home":
+                require __DIR__ . '/pages/home.php';
                 break;
         }
-
-
-
 
         ?>
 

@@ -9,8 +9,7 @@
 
 <body>
 
-    this is home
-
+    This is the sell page
 
 </body>
 
