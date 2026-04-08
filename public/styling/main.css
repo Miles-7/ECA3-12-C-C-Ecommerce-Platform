@@ -17,7 +17,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
-    background-color: #FAFAF5;
+    background-color: #0F1C2E;
 
 }
 
@@ -25,6 +25,7 @@ body {
     display: flex;
     width:300px;
     justify-content: space-between;
+    text-decoration: none;
 
 }
 
@@ -32,6 +33,28 @@ body {
     flex-grow: 1;
     max-width: 500px;
     margin: 0 1rem;
+    
+}
+
+.nav-right i {
+    font-size: 24px;
+    color: #E8A020;         /* your amber accent */
+    transition: color 0.2s ease;
+
+}
+
+a {
+  text-decoration: none;
+}
+
+
+.nav-right a:hover i {
+    color: #FFFFFF;
+}
+
+#search-btn i {
+    font-size: 18px;
+    color: #F0F4F8;
 }
 
 #sell-item{
@@ -39,15 +62,23 @@ body {
 }
 
 #logo {
-    height: 85px;
+    height: 100px;
     width: auto;
     margin-right: 3rem;
+}
+
+.svgs_nav{
+    color: white;
 }
 
 
 #search-bar{
     padding: 10px;
     width: 100%;
+    -webkit-appearance: none; 
+    border: 0.8px;
+    background-color: #1E2E42;
+    color: #F0F4F8;
     
 }
 
@@ -58,8 +89,8 @@ body {
 #sell-btn{
     width: 50%;
     border-radius:1px;
-    background: linear-gradient(135deg, #059669 0%, #556B2F 100%);
-    color: white;
+    background: linear-gradient(135deg, #E8A020 0%, #C47B10 100%);
+    color: #0F1C2E;
     padding: 5px;
     border: none;
     border-radius: 10px;
@@ -67,15 +98,13 @@ body {
     font-weight: 300;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    
-    
-   
 }
+
 
 
 /* Register and Login Pages  */
 .auth-page {
-    background: linear-gradient(135deg, #059669 0%, #3C4A2F 100%);  
+    background: linear-gradient(135deg, #0F1C2E 0%, #1A3A5C 100%);  
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -83,17 +112,17 @@ body {
 }
 
 .container{
-    background-color: #FAFAF5;   /* Off-white with slight warmth */
+    background-color: #FFFFFF;
     width: 450px;
     padding: 2.5rem;
     border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(60, 74, 47, 0.4);  /* Olive shadow */
+    box-shadow: 0 20px 60px rgba(15, 28, 46, 0.5);
 }
 
 .form-title {
     font-size: 2rem;
     font-weight: 700;
-    color: #2D3A1F;              /* Dark olive for text */
+    color: #0F1C2E;
     margin-bottom: 2rem;
     text-align: center;
 }
@@ -113,7 +142,7 @@ form {
 .input-group i {
     position: absolute;
     left: 15px;
-    color: #059669;              
+    color: #E8A020;              
     font-size: 1.2rem;
     pointer-events: none;
 }
@@ -121,7 +150,7 @@ form {
 .input-group input {
     width: 100%;
     padding: 15px 15px 15px 45px;
-    border: 2px solid #D4E7C5;   
+    border: 2px solid #CBD5E1;   
     border-radius: 10px;
     font-size: 1rem;
     outline: none;
@@ -130,12 +159,12 @@ form {
 }
 
 .input-group input:focus {
-    border-color: #059669;       
-    box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.15);  
+    border-color: #E8A020;       
+    box-shadow: 0 0 0 3px rgba(232, 160, 32, 0.15);  
 }
 
 .input-group input::placeholder {
-    color: #8B9A7A;              
+    color: #94A3B8;              
 }
 
 .input-group label {
@@ -143,8 +172,8 @@ form {
 }
 
 .submit-btn {
-    background: linear-gradient(135deg, #059669 0%, #556B2F 100%);  /* Olive gradient button */
-    color: #FFFFFF;
+    background: linear-gradient(135deg, #E8A020 0%, #C47B10 100%);
+    color: #0F1C2E;
     padding: 15px;
     border: none;
     border-radius: 10px;
@@ -156,7 +185,7 @@ form {
 
 .submit-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(107, 142, 35, 0.4);  /* Olive shadow on hover */
+    box-shadow: 0 10px 25px rgba(232, 160, 32, 0.4);
 }
 
 .submit-btn:active {
@@ -166,19 +195,19 @@ form {
 .change-auth {
     text-align: center;
     margin-top: 1.5rem;
-    color: #5A6B4A;              /* Muted olive text */
+    color: #475569;
     font-size: 0.95rem;
 }
 
 .change-auth a {
-    color: #059669;              /* Olive drab links */
+    color: #E8A020;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 .change-auth a:hover {
-    color: #556B2F;              /* Darker olive on hover */
+    color: #C47B10;
     text-decoration: underline;
 }
 
