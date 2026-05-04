@@ -9,6 +9,8 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+require __DIR__ . '/../src/helpers/lang.php';
+
 
 
 // Read which page is requested, if the page is invalid then set the value to home
@@ -26,7 +28,6 @@ if (!in_array($page, $allowed_pages)) {
 
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,8 +39,9 @@ if (!in_array($page, $allowed_pages)) {
     <link rel="stylesheet" href="styling/main.css">
 </head>
 
-<body>
 
+
+<body>
     <?php
     // inject my header component 
     require __DIR__ . '/../src/components/header.php';
@@ -60,10 +62,6 @@ if (!in_array($page, $allowed_pages)) {
 
             case "liked":
                 require __DIR__ . '/pages/liked.php';
-                break;
-
-            case "profile":
-                require __DIR__ . '/pages/profile.php';
                 break;
 
             case "home":

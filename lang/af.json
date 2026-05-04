@@ -1,0 +1,39 @@
+{
+  "nav": {
+    "search_placeholder": "Soek vir produkte",
+    "sell_btn": "Verkoop Nou"
+  },
+  "login": {
+    "title": "Teken In",
+    "email_placeholder": "jouepos@voorbeeld.com",
+    "password_placeholder": "Wagwoord",
+    "submit": "Teken In",
+    "no_account": "Het jy nie 'n rekening nie?",
+    "sign_up": "Registreer!",
+    "success": "Aanmelding suksesvol! Welkom",
+    "error": "Fout"
+  },
+  "register": {
+    "title": "Registreer",
+    "username_placeholder": "Gebruikersnaam",
+    "email_placeholder": "jouepos@voorbeeld.com",
+    "password_placeholder": "Wagwoord",
+    "submit": "Registreer",
+    "have_account": "Het jy reeds 'n rekening?",
+    "sign_in": "Teken In",
+    "success": "Registrasie suksesvol! Herlei na aanmelding...",
+    "error": "Fout"
+  },
+  "home": {
+    "hero_title": "Dryf Suid-Afrika se Handel"
+  },
+  "sell": {
+    "hero": "Lys jou item",
+    "subhero": "Bereik duisende kopers regoor Suid-Afrika",
+    "photos_label": "Foto's",
+    "photos_hint": "Voeg tot 5 foto's by. Die eerste foto sal die omslagfoto wees.",
+    "drop_main": "Sleep foto's hier of klik om te blaai",
+    "drop_sub": "JPG, PNG, WEBP — tot 10MB elk",
+    "tips_title": "Verkoopwenke"
+  }
+}

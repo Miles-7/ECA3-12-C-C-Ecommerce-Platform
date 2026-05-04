@@ -1,0 +1,39 @@
+{
+  "nav": {
+    "search_placeholder": "Search for products",
+    "sell_btn": "Sell Now"
+  },
+  "login": {
+    "title": "Login",
+    "email_placeholder": "youremail@example.com",
+    "password_placeholder": "Password",
+    "submit": "Login",
+    "no_account": "Don't have an account?",
+    "sign_up": "Sign Up!",
+    "success": "Login successful! Welcome",
+    "error": "Error"
+  },
+  "register": {
+    "title": "Register",
+    "username_placeholder": "Username",
+    "email_placeholder": "youremail@example.com",
+    "password_placeholder": "Password",
+    "submit": "Register",
+    "have_account": "Already have an account?",
+    "sign_in": "Sign In",
+    "success": "Registration successful! Redirecting to login...",
+    "error": "Error"
+  },
+  "home": {
+    "hero_title": "Driving South Africa's Commerce"
+  },
+  "sell": {
+    "hero": "List your item",
+    "subhero": "Reach thousands of buyers across South Africa",
+    "photos_label": "Photos",
+    "photos_hint": "Add up to 5 photos. First photo will be the cover image.",
+    "drop_main": "Drag photos here or click to browse",
+    "drop_sub": "JPG, PNG, WEBP — up to 10MB each",
+    "tips_title": "Selling Tips"
+  }
+}

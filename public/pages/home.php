@@ -9,8 +9,11 @@
 
 <body>
 
-    this is home
-
+    <div class="hero_container">
+        <div id="hero_title">
+            <?= t('home.hero_title') ?>
+        </div>
+    </div>
 
 </body>
 
