@@ -1,191 +1,267 @@
-/* Main navigation container */
+/* ============================================================
+   TERRA.CO — Clean & Minimal, Warm Earth Tone Theme
+   Stone:    #3D2E24  (deep brown — text, nav bg)
+   Clay:     #C4714A  (terracotta — accents, CTAs)
+   Sand:     #D4B99A  (warm mid tone)
+   Linen:    #FAF6F1  (page background)
+   ============================================================ */
 
-*{
-    margin:0px;
-    padding:0px;
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap');
+
+:root {
+    --clay:        #C4714A;
+    --clay-dark:   #A05A36;
+    --clay-light:  #F0D5C4;
+    --stone:       #3D2E24;
+    --stone-mid:   #6B5347;
+    --stone-light: #A89488;
+    --sand:        #D4B99A;
+    --linen:       #FAF6F1;
+    --linen-dark:  #F0E8DF;
+    --cream:       #FFFFFF;
+    --border:      #E0D4CA;
+}
+
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background-color: var(--linen);
+    color: var(--stone);
 }
 
-
-
+/* ── Navigation ── */
 .main-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 2rem;
-    background-color: #0F1C2E;
-
+    padding: 0 2.5rem;
+    height: 68px;
+    background-color: var(--linen);
+    border-bottom: 0.5px solid var(--border);
 }
 
-.nav-item{
+.nav-item {
     display: flex;
-    width:300px;
+    width: 300px;
     justify-content: space-between;
+    gap: 1.5rem;
     text-decoration: none;
+}
 
+.nav-item a {
+    font-size: 0.875rem;
+    color: var(--stone-mid);
+    letter-spacing: 0.03em;
+    transition: color 0.2s ease;
+}
+
+.nav-item a:hover {
+    color: var(--clay);
 }
 
 .nav-search {
     flex-grow: 1;
-    max-width: 500px;
-    margin: 0 1rem;
-    
+    max-width: 480px;
+    margin: 0 1.5rem;
 }
 
 .nav-right i {
-    font-size: 24px;
-    color: #E8A020;         /* your amber accent */
+    font-size: 20px;
+    color: var(--stone-mid);
     transition: color 0.2s ease;
-
 }
 
 a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
-
 .nav-right a:hover i {
-    color: #FFFFFF;
+    color: var(--clay);
 }
 
 #search-btn i {
-    font-size: 18px;
-    color: #F0F4F8;
+    font-size: 16px;
+    color: var(--cream);
 }
 
-#sell-item{
-    margin-left: 20px;
+#sell-item {
+    margin-left: 16px;
 }
 
 #logo {
-    height: 100px;
+    height: 95px;
     width: auto;
-    margin-right: 3rem;
+    margin-right: 2.5rem;
+    margin-top: .7rem;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.12em;
+    color: var(--stone);
 }
 
-.svgs_nav{
-    color: white;
+.svgs_nav {
+    color: var(--stone-mid);
 }
 
-
-#search-bar{
-    padding: 10px;
+#search-bar {
+    padding: 10px 14px;
     width: 100%;
-    -webkit-appearance: none; 
-    border: 0.8px;
-    background-color: #1E2E42;
-    color: #F0F4F8;
-    
+    -webkit-appearance: none;
+    border: 0.5px solid var(--border);
+    border-radius: 6px 0 0 6px;
+    background-color: var(--linen);
+    color: var(--stone);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s ease;
 }
 
-#search-btn{
-    padding:8px;
+#search-bar::placeholder {
+    color: var(--stone-light);
 }
 
-#sell-btn{
-    width: 50%;
-    border-radius:1px;
-    background: linear-gradient(135deg, #E8A020 0%, #C47B10 100%);
-    color: #0F1C2E;
-    padding: 5px;
+#search-bar:focus {
+    border-color: var(--clay);
+    background-color: var(--cream);
+}
+
+#search-btn {
+    padding: 10px 16px;
+    background-color: var(--clay);
     border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: 300;
+    border-radius: 0 6px 6px 0;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: background-color 0.2s ease;
 }
 
+#search-btn:hover {
+    background-color: var(--clay-dark);
+}
 
+#sell-btn {
+    padding: 9px 22px;
+    background-color: var(--stone);
+    color: var(--linen);
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
 
-/* Register and Login Pages  */
+#sell-btn:hover {
+    background-color: var(--clay);
+}
+
+/* ── Auth Pages ── */
 .auth-page {
-    background: linear-gradient(135deg, #0F1C2E 0%, #1A3A5C 100%);  
+    background-color: var(--linen);
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    /* [RESPONSIVE] added horizontal padding so card doesn't touch screen edges on mobile */
+    padding: 1rem;
 }
 
-.container{
-    background-color: #FFFFFF;
-    width: 450px;
+.container {
+    background-color: var(--cream);
+    /* [RESPONSIVE] changed fixed width:440px to width:100% + max-width:440px
+       so the card stretches on small screens instead of overflowing */
+    width: 100%;
+    max-width: 440px;
     padding: 2.5rem;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(15, 28, 46, 0.5);
+    border-radius: 12px;
+    border: 0.5px solid var(--border);
 }
 
 .form-title {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #0F1C2E;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: var(--stone);
     margin-bottom: 2rem;
     text-align: center;
+    letter-spacing: 0.02em;
 }
 
 form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.25rem;
 }
 
 .input-group {
     position: relative;
     display: flex;
     align-items: center;
+    flex-direction: row;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--stone-mid);
+    font-weight: 500;
 }
 
 .input-group i {
     position: absolute;
-    left: 15px;
-    color: #E8A020;              
-    font-size: 1.2rem;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--stone-light);
+    font-size: 1rem;
     pointer-events: none;
 }
 
 .input-group input {
     width: 100%;
-    padding: 15px 15px 15px 45px;
-    border: 2px solid #CBD5E1;   
-    border-radius: 10px;
-    font-size: 1rem;
+    padding: 11px 12px 11px 38px;   /* left padding makes room for icon */
+    border: 0.5px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.95rem;
     outline: none;
-    transition: all 0.3s ease;
-    background-color: #FFFFFF;
+    background-color: var(--linen);
+    color: var(--stone);
+    transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .input-group input:focus {
-    border-color: #E8A020;       
-    box-shadow: 0 0 0 3px rgba(232, 160, 32, 0.15);  
+    border-color: var(--clay);
+    background-color: var(--cream);
 }
 
 .input-group input::placeholder {
-    color: #94A3B8;              
-}
-
-.input-group label {
-    display: none; 
+    color: var(--stone-light);
 }
 
 .submit-btn {
-    background: linear-gradient(135deg, #E8A020 0%, #C47B10 100%);
-    color: #0F1C2E;
-    padding: 15px;
+    background-color: var(--stone);
+    color: var(--linen);
+    padding: 13px;
     border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: 600;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+    margin-top: 0.25rem;
 }
 
 .submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(232, 160, 32, 0.4);
+    background-color: var(--clay);
+    transform: translateY(-1px);
 }
 
 .submit-btn:active {
@@ -194,26 +270,446 @@ form {
 
 .change-auth {
     text-align: center;
-    margin-top: 1.5rem;
-    color: #475569;
-    font-size: 0.95rem;
+    margin-top: 1.25rem;
+    color: var(--stone-light);
+    font-size: 0.875rem;
 }
 
 .change-auth a {
-    color: #E8A020;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
+    color: var(--clay);
+    font-weight: 500;
+    transition: color 0.2s ease;
 }
 
 .change-auth a:hover {
-    color: #C47B10;
+    color: var(--clay-dark);
     text-decoration: underline;
 }
 
-
-.lang{
+.lang {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.lang-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: 1.5rem;
+    color: var(--stone-light);
+    font-size: 0.875rem;
+}
+
+.lang-selector select {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--stone);
+    font-size: 0.8rem;
+    padding: 0.2rem 0.4rem;
+    cursor: pointer;
+    outline: none;
+}
+
+.lang-selector select:focus {
+    border-color: var(--clay);
+}
+
+/* ── Product cards ── */
+.product-card {
+    background-color: var(--cream);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+}
+
+.product-card:hover {
+    border-color: var(--sand);
+}
+
+.product-card .product-category {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--clay);
+    margin-bottom: 4px;
+}
+
+.product-card .product-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1rem;
+    color: var(--stone);
+    margin-bottom: 6px;
+}
+
+.product-card .product-price {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--stone);
+}
+
+.product-card .add-to-cart {
+    width: 100%;
+    padding: 9px;
+    background: transparent;
+    border: 0.5px solid var(--clay);
+    border-radius: 6px;
+    color: var(--clay);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.product-card .add-to-cart:hover {
+    background-color: var(--clay);
+    color: var(--cream);
+}
+
+/* ── Sell Page ── */
+#sell-body {
+    background-color: var(--linen-dark);
+}
+
+.item_upload_container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    padding: 20px;
+    background: var(--cream);
+    margin-left: 3%;
+    margin-right: 7%;
+    gap: 20px;
+}
+
+.sell_hero_container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    background-color: var(--linen-dark);
+    height: 20vh;
+}
+
+#sell_hero, #sell_subhero {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--stone);
+    margin-left: 1.5rem;
+}
+
+.sell_banner {
+    background-color: var(--clay-light);
+    border: 0.5px solid var(--sand);
+    border-radius: 10px;
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sell-banner h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--stone);
+}
+
+.sell_banner p {
+    font-size: 0.875rem;
+    color: var(--stone-mid);
+    margin-top: 2px;
+}
+
+.left {
+    grid-row: span 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    margin-left: 5px;
+}
+
+.right-top,
+.right-bottom {
+    height: 100%;
+    display: flex;
+    border: 1px solid red;
+    margin-right: 5px;
+    font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* Photos Section */
+.photos-label {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1rem;
+    color: var(--stone);
+    display: block;
+    margin-bottom: 4px;
+}
+
+.required { color: var(--clay); }
+
+.photos-hint {
+    font-size: 0.8rem;
+    color: var(--stone-mid);
+    margin-bottom: 0.75rem;
+}
+
+/* Drop Zone */
+.drop-zone {
+    border: 2px dashed var(--sand);
+    border-radius: 10px;
+    padding: 2.5rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.drop-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+.drop-zone i {
+    font-size: 2rem;
+    color: var(--stone-mid);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.drop-main {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--stone);
+    margin: 0 0 4px;
+}
+
+.drop-sub {
+    font-size: 0.75rem;
+    color: var(--stone-mid);
+    margin: 0;
+}
+
+.drop-zone.dragover {
+    background-color: var(--linen-dark);
+    border-color: var(--clay);
+}
+
+/* Preview Grid */
+.preview-grid {
+    display: none;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.preview-item {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 0.5px solid var(--sand);
+}
+
+.preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.cover-badge {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-more-tile {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    border: 1.5px dashed var(--sand);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 11px;
+    color: var(--stone-mid);
+    gap: 4px;
+    position: relative;
+    background: var(--linen);
+}
+
+.add-more-tile input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+.add-more-tile i {
+    font-size: 1.2rem;
+}
+
+/* ── Home page ── */
+.hero_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 10rem;
+    background-color: var(--linen-dark);
+    padding: 5px;
+}
+
+#hero_title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3rem;
+}
+
+
+/* ============================================================
+   RESPONSIVE ADJUSTMENTS
+   Breakpoints used:
+     Mobile:  max-width 640px
+     Tablet:  max-width 768px
+   All rules below are additions only — nothing above was
+   removed, only the two marked changes to .auth-page and
+   .container were made inline above.
+   ============================================================ */
+
+/* ── Navigation (mobile) ──
+   On small screens the nav wraps into two rows:
+   row 1 → logo + sell button
+   row 2 → full-width search bar
+   The nav links are hidden on mobile to avoid clutter —
+   add a hamburger menu when you build it out.
+   [RESPONSIVE] */
+@media (max-width: 640px) {
+    .main-nav {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 0.75rem 1rem;
+        gap: 0.5rem;
+    }
+
+    .nav-item {
+        display: none; /* hide nav links on mobile */
+    }
+
+    .nav-search {
+        order: 3;        /* push search to second row */
+        max-width: 100%;
+        width: 100%;
+        margin: 0;
+    }
+
+    #logo {
+        height: 60px;
+        margin-right: 0;
+    }
+}
+
+/* ── Auth page container (small mobile) ──
+   Reduce padding on very small screens so content
+   has more room inside the card.
+   [RESPONSIVE] */
+@media (max-width: 400px) {
+    .container {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .form-title {
+        font-size: 1.4rem;
+    }
+}
+
+/* ── Sell page hero ──
+   Reduce the hero height on mobile so it doesn't take
+   up too much of the viewport.
+   [RESPONSIVE] */
+@media (max-width: 640px) {
+    .sell_hero_container {
+        height: auto;
+        padding: 1.5rem 1rem;
+    }
+
+    #sell_hero, #sell_subhero {
+        font-size: 1.3rem;
+        margin-left: 0;
+    }
+
+    .sell_banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 1rem 1.25rem;
+    }
+}
+
+/* ── Sell page upload grid ──
+   Stack the 2-column upload grid into a single column
+   on tablet and below. The .left panel spans full width
+   instead of spanning 2 rows.
+   [RESPONSIVE] */
+@media (max-width: 768px) {
+    .item_upload_container {
+        grid-template-columns: 1fr;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 16px;
+    }
+
+    .left {
+        grid-row: span 1; /* reset the 2-row span on mobile */
+    }
+}
+
+/* ── Home page hero title ──
+   Scale down the large hero title on small screens.
+   [RESPONSIVE] */
+@media (max-width: 640px) {
+    #hero_title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .hero_container {
+        height: auto;
+        padding: 2rem 1rem;
+    }
 }

@@ -1,0 +1,39 @@
+{
+  "nav": {
+    "search_placeholder": "Sesha imikhiqizo",
+    "sell_btn": "Thengisa Manje"
+  },
+  "login": {
+    "title": "Ngena",
+    "email_placeholder": "i-imeyili@isibonelo.com",
+    "password_placeholder": "Igama lokudlula",
+    "submit": "Ngena",
+    "no_account": "Awunayo i-akhawunti?",
+    "sign_up": "Bhalisa!",
+    "success": "Ukungena kuphumelele! Wamukelekile",
+    "error": "Iphutha"
+  },
+  "register": {
+    "title": "Bhalisa",
+    "username_placeholder": "Igama lomsebenzisi",
+    "email_placeholder": "i-imeyili@isibonelo.com",
+    "password_placeholder": "Igama lokudlula",
+    "submit": "Bhalisa",
+    "have_account": "Usenayo i-akhawunti?",
+    "sign_in": "Ngena",
+    "success": "Ukubhalisa kuphumelele! Uyasiwa endaweni yokungena...",
+    "error": "Iphutha"
+  },
+  "home": {
+    "hero_title": "Iqhuba Uhwebo LweNingizimu Afrika"
+  },
+  "sell": {
+    "hero": "Bhala into yakho",
+    "subhero": "Fika ezinkulungwaneni zabathenga kulo lonke eNingizimu Afrika",
+    "photos_label": "Izithombe",
+    "photos_hint": "Faka izithombe ezingu-5 ubunini. Isithombe sokuqala siyoba isithombe sesifaki.",
+    "drop_main": "Donsa izithombe lapha noma chofoza ukuphendleka",
+    "drop_sub": "JPG, PNG, WEBP — kuze kufike ku-10MB ngamunye",
+    "tips_title": "Izikhonkwane Zokuthengisa"
+  }
+}

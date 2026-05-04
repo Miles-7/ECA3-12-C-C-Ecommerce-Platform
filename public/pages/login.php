@@ -1,82 +1,89 @@
+<?php require __DIR__ . '/../../src/helpers/lang.php'; ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= $current_lang ?>">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title><?= t('login.title') ?></title>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="../styling/main.css">
 </head>
 
 <body class="auth-page">
 
-<div class="container" id="sign-up">
-    <h1 class="form-title">Login</h1>
-    <form id="loginForm" method="post" action="">
-        <div class="input-group">
-            <i class="ri-mail-fill"></i>
-            <input type="email" name="email" id="email" placeholder="youremail@example.com" required>
-            <label for="email">Email</label>
+    <div class="container" id="sign-up">
+        <h1 class="form-title"><?= t('login.title') ?></h1>
+        <form id="loginForm" method="post" action="">
+            <div class="input-group">
+                <i class="ri-mail-fill"></i>
+                <input type="email" name="email" id="email" placeholder="<?= t('login.email_placeholder') ?>" required>
+                <label for="email"></label>
+            </div>
+
+            <div class="input-group">
+                <i class="ri-lock-fill"></i>
+                <input type="password" name="password" id="password" placeholder="<?= t('login.password_placeholder') ?>" required>
+                <label for="password"></label>
+            </div>
+
+            <button type="submit" class="submit-btn"><?= t('login.submit') ?></button>
+        </form>
+
+        <div class="change-auth">
+            <?= t('login.no_account') ?> <a href="register.php"><?= t('login.sign_up') ?></a>
         </div>
 
-        <div class="input-group">
-            <i class="ri-lock-fill"></i>
-            <input type="password" name="password" id="password" placeholder="Password" required>
-            <label for="password">Password</label>
+        <div class="lang-selector">
+            <i class="ri-global-line"></i>
+            <select id="lang-select">
+                <option value="en" <?= $current_lang === 'en' ? 'selected' : '' ?>>English</option>
+                <option value="af" <?= $current_lang === 'af' ? 'selected' : '' ?>>Afrikaans</option>
+                <option value="xh" <?= $current_lang === 'xh' ? 'selected' : '' ?>>isiXhosa</option>
+                <option value="zu" <?= $current_lang === 'zu' ? 'selected' : '' ?>>isiZulu</option>
+            </select>
         </div>
-
-        <button type="submit" class="submit-btn">Login</button>
-    </form>
-
-    <div class="change-auth"> 
-        Don't have an account? <a href="register.php">Sign Up!</a>
     </div>
-</div>
 
-<script>
-    const loginForm = document.getElementById('loginForm');
+    <script>
+        document.getElementById('lang-select').addEventListener('change', function () {
+            const url = new URL(window.location.href);
+            url.searchParams.set('lang', this.value);
+            window.location.href = url.toString();
+        });
 
-    // Listen for form submission
-    loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+        const loginForm = document.getElementById('loginForm');
 
-        // Get form data
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-        // Create data object
-        const formData = {
-            email: email,
-            password: password
-        };
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-        try {
-            // Send data to API
-            const response = await fetch('../../api/login.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
+            const formData = { email, password };
 
-            // Get response
-            const result = await response.json();
+            try {
+                const response = await fetch('../../api/login.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
 
-            // Handle response
-            if (result.success) {
-                alert('Login successful! Welcome ' + result.user.name);
-                // Redirect to home page or dashboard
-                window.location.href = '../index.php';  
-            } else {
-                alert('Error: ' + result.message);
+                const result = await response.json();
+
+                if (result.success) {
+                    alert('<?= t('login.success') ?> ' + result.user.name);
+                    window.location.href = '../index.php';
+                } else {
+                    alert('<?= t('login.error') ?>: ' + result.message);
+                }
+
+            } catch (error) {
+                alert('<?= t('login.error') ?>: ' + error.message);
             }
-
-        } catch (error) {
-            alert('Error: ' + error.message);
-        }
-    });
-</script>
+        });
+    </script>
 
 </body>
+
 </html>

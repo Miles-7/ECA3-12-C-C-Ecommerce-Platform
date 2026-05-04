@@ -1,0 +1,39 @@
+{
+  "nav": {
+    "search_placeholder": "Khangela iimveliso",
+    "sell_btn": "Thengisa Ngoku"
+  },
+  "login": {
+    "title": "Ngena",
+    "email_placeholder": "i-imeyile@umzekelo.com",
+    "password_placeholder": "Igama lokugqitha",
+    "submit": "Ngena",
+    "no_account": "Awunayo i-akhawunti?",
+    "sign_up": "Bhalisa!",
+    "success": "Ukungena kuphumelele! Wamkelekile",
+    "error": "Impazamo"
+  },
+  "register": {
+    "title": "Bhalisa",
+    "username_placeholder": "Igama lomsebenzisi",
+    "email_placeholder": "i-imeyile@umzekelo.com",
+    "password_placeholder": "Igama lokugqitha",
+    "submit": "Bhalisa",
+    "have_account": "Sele unayo i-akhawunti?",
+    "sign_in": "Ngena",
+    "success": "Ukubhalisa kuphumelele! Uyasiwa kwindawo yokungena...",
+    "error": "Impazamo"
+  },
+  "home": {
+    "hero_title": "Iqhuba uRhwebo lweMzantsi Afrika"
+  },
+  "sell": {
+    "hero": "Bhala umthengiso wakho",
+    "subhero": "Fika kumawakawaka abathenga kulo lonke uMzantsi Afrika",
+    "photos_label": "Iifoto",
+    "photos_hint": "Faka iifoto ezingama-5 ubunini. Ifoto yokuqala iya kuba yifoto esifakweni.",
+    "drop_main": "Tsala iifoto apha okanye cofa ukuphanda",
+    "drop_sub": "JPG, PNG, WEBP — de kuma-10MB ngamnye",
+    "tips_title": "Iingcebiso Zokuthengisa"
+  }
+}
