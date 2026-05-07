@@ -1,7 +1,8 @@
 {
   "nav": {
     "search_placeholder": "Soek vir produkte",
-    "sell_btn": "Verkoop Nou"
+    "sell_btn": "Verkoop Nou",
+    "menu_label": "Kieslys"
   },
   "login": {
     "title": "Teken In",
@@ -25,7 +26,66 @@
     "error": "Fout"
   },
   "home": {
-    "hero_title": "Dryf Suid-Afrika se Handel"
+    "hero_title": "Dryf Suid-Afrika se Handel",
+    "browse_category": "Blaai deur Kategorie",
+    "featured_title": "Uitgesoekte Advertensies",
+    "all_listings": "Alle advertensies",
+    "view_all": "Sien almal",
+    "view_listing": "Sien advertensie",
+    "recent_title": "Onlangse Advertensies",
+    "slogan_eyebrow": "Suid-Afrika se markplek",
+    "slogan": "Koop. Verkoop. Styg.",
+    "slogan_sub": "Duisende advertensies in elke kategorie — vind wat jy nodig het, of verander wat jy het in kontant."
+  },
+  "profile": {
+    "avatar_hint": "Klik om foto te verander",
+    "member_since": "Lid sedert",
+    "edit_title": "Redigeer Profiel",
+    "name_label": "Naam",
+    "email_label": "E-pos",
+    "save_btn": "Stoor Veranderinge",
+    "my_listings": "My Advertensies",
+    "no_listings_title": "Nog geen advertensies nie",
+    "no_listings_desc": "Sodra jy 'n item te koop plaas, sal dit hier verskyn.",
+    "post_listing": "Plaas 'n advertensie"
+  },
+  "liked": {
+    "empty_title": "Nog geen gelikte items nie",
+    "empty_desc": "Items wat jy geniet sal hier verskyn. Begin blaai en tik die hart op enigiets wat jou aandag trek.",
+    "browse_btn": "Blaai deur advertensies"
+  },
+  "footer": {
+    "tagline": "Koop en verkoop enigiets, plaaslik.",
+    "explore": "Verken",
+    "home": "Tuis",
+    "sell_item": "Verkoop 'n item",
+    "liked_items": "Gelikte items",
+    "support": "Ondersteuning",
+    "help_centre": "Hulpsentrum",
+    "safety_tips": "Veiligheidswenke",
+    "contact": "Kontak ons",
+    "legal": "Regsake",
+    "terms": "Diensvoorwaardes",
+    "privacy": "Privaatheidsbeleid",
+    "cookies": "Koekiebeleid",
+    "copyright": "Alle regte voorbehou."
+  },
+  "modal": {
+    "buy_btn": "Koop Nou",
+    "message_btn": "Kontak Verkoper"
+  },
+  "product": {
+    "back": "Terug",
+    "more_listings": "Meer Advertensies"
+  },
+  "filter": {
+    "any_category": "Enige kategorie",
+    "any_condition": "Enige toestand",
+    "price_min": "Min (R)",
+    "price_max": "Maks (R)",
+    "clear": "Vee filters uit",
+    "results": "resultate",
+    "no_results": "Geen advertensies pas by jou filters nie."
   },
   "sell": {
     "hero": "Lys jou item",
@@ -34,6 +94,47 @@
     "photos_hint": "Voeg tot 5 foto's by. Die eerste foto sal die omslagfoto wees.",
     "drop_main": "Sleep foto's hier of klik om te blaai",
     "drop_sub": "JPG, PNG, WEBP — tot 10MB elk",
-    "tips_title": "Verkoopwenke"
+    "tips_title": "Verkoopwenke",
+    "title_label": "Titel",
+    "title_placeholder": "Wat verkoop jy?",
+    "description_label": "Beskrywing",
+    "description_placeholder": "Beskryf jou item — sluit in besonderhede soos handelsmerk, grootte, ouderdom of enige defekte in.",
+    "category_label": "Kategorie",
+    "category_default": "Kies 'n kategorie",
+    "price_label": "Prys (ZAR)",
+    "price_placeholder": "0.00",
+    "condition_label": "Toestand",
+    "condition_default": "Kies toestand",
+    "location_label": "Ligging",
+    "location_placeholder": "Stad of voorstad",
+    "phone_label": "Telefoonnommer",
+    "phone_placeholder": "bv. 071 234 5678",
+    "phone_optional": "opsioneel",
+    "submit_btn": "Lys Item",
+    "cat_electronics": "Elektronika",
+    "cat_clothing": "Klere",
+    "cat_home": "Huis",
+    "cat_vehicles": "Voertuie",
+    "cat_furniture": "Meubels",
+    "cat_books": "Boeke",
+    "cat_sports": "Sport",
+    "cat_baby": "Baba",
+    "cat_other": "Ander",
+    "cond_new": "Nuut",
+    "cond_like_new": "Soos Nuut",
+    "cond_good": "Goed",
+    "cond_fair": "Redelik",
+    "cond_parts": "Vir Onderdele",
+    "tip_1": "Gebruik duidelike, goed beligde foto's — natuurlike lig werk die beste",
+    "tip_2": "Wees eerlik oor die toestand om kopers se vertroue te bou",
+    "tip_3": "Prys regverdig — kyk eers na soortgelyke advertensies",
+    "tip_4": "Reageer vinnig op kopers om transaksies vinniger te sluit",
+    "tip_5": "Ontmoet in veilige, openbare plekke wanneer items uitgeruil word",
+    "safety_title": "As Julle Persoonlik Ontmoet",
+    "safety_1": "Ontmoet op 'n openbare plek — winkelsentrums of polisiestasies is ideaal",
+    "safety_2": "Bring 'n vriend of familielid saam",
+    "safety_3": "Ondersoek die item deeglik voordat jy enige betaling doen",
+    "safety_4": "Laat iemand wat jy vertrou weet waar jy gaan en met wie jy ontmoet",
+    "safety_5": "Vertrou jou instinkte — as iets skeef voel, loop weg"
   }
 }

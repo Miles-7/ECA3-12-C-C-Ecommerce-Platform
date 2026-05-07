@@ -1,7 +1,8 @@
 {
   "nav": {
     "search_placeholder": "Sesha imikhiqizo",
-    "sell_btn": "Thengisa Manje"
+    "sell_btn": "Thengisa Manje",
+    "menu_label": "Imenyu"
   },
   "login": {
     "title": "Ngena",
@@ -25,7 +26,66 @@
     "error": "Iphutha"
   },
   "home": {
-    "hero_title": "Iqhuba Uhwebo LweNingizimu Afrika"
+    "hero_title": "Iqhuba Uhwebo LweNingizimu Afrika",
+    "browse_category": "Phendleka ngoHlobo",
+    "featured_title": "Izintengiso Ezikhethiwe",
+    "all_listings": "Zonke izintengiso",
+    "view_all": "Buka konke",
+    "view_listing": "Buka intengiso",
+    "recent_title": "Izintengiso Zakamuva",
+    "slogan_eyebrow": "Indawo yokuthenga yaseNingizimu Afrika",
+    "slogan": "Thenga. Thengisa. Vuka.",
+    "slogan_sub": "Izinkulungwane zezintengiso kuwo wonke amahlobo — thola lokho okudingayo, noma guqula okunakho ube ngimali."
+  },
+  "profile": {
+    "avatar_hint": "Chofoza ukushintsha isithombe",
+    "member_since": "Ilungu kusukela",
+    "edit_title": "Hlela iPhrofayili",
+    "name_label": "Igama",
+    "email_label": "I-imeyili",
+    "save_btn": "Gcina Izinguquko",
+    "my_listings": "Izintengiso Zami",
+    "no_listings_title": "Azikho izintengiso",
+    "no_listings_desc": "Uma ubhala into yokuthengisa, iyobonakala lapha.",
+    "post_listing": "Bhala intengiso"
+  },
+  "liked": {
+    "empty_title": "Azikho izinto ezithandwayo",
+    "empty_desc": "Izinto ozithandayo ziyobonakala lapha. Qala ukuphendleka uchofoze inhliziyo ezintweni ezikhethekile.",
+    "browse_btn": "Phendleka izintengiso"
+  },
+  "footer": {
+    "tagline": "Thenga uthengise noma yini, endaweni yakho.",
+    "explore": "Hlola",
+    "home": "Ikhaya",
+    "sell_item": "Thengisa into",
+    "liked_items": "Izinto ezithandwayo",
+    "support": "Ukusekela",
+    "help_centre": "Iziko lokusiza",
+    "safety_tips": "Amathiphu okuphepha",
+    "contact": "Xhumana nathi",
+    "legal": "Ezomthetho",
+    "terms": "Imigomo yenkonzo",
+    "privacy": "Inqubomgomo yobumfihlo",
+    "cookies": "Inqubomgomo ye-cookie",
+    "copyright": "Onke amalungelo agodliwe."
+  },
+  "modal": {
+    "buy_btn": "Thenga Manje",
+    "message_btn": "Thumela Umthengisi"
+  },
+  "product": {
+    "back": "Buyela Emuva",
+    "more_listings": "Izintengiso Eziningi"
+  },
+  "filter": {
+    "any_category": "Noma yiluphi uhlobo",
+    "any_condition": "Noma yiliphi isimo",
+    "price_min": "Okuncane (R)",
+    "price_max": "Okukhulu (R)",
+    "clear": "Sula izihluzi",
+    "results": "imiphumela",
+    "no_results": "Azikho izintengiso ezihambelana nezihluzi zakho."
   },
   "sell": {
     "hero": "Bhala into yakho",
@@ -34,6 +94,47 @@
     "photos_hint": "Faka izithombe ezingu-5 ubunini. Isithombe sokuqala siyoba isithombe sesifaki.",
     "drop_main": "Donsa izithombe lapha noma chofoza ukuphendleka",
     "drop_sub": "JPG, PNG, WEBP — kuze kufike ku-10MB ngamunye",
-    "tips_title": "Izikhonkwane Zokuthengisa"
+    "tips_title": "Izikhonkwane Zokuthengisa",
+    "title_label": "Isihloko",
+    "title_placeholder": "Uthengisani?",
+    "description_label": "Incazelo",
+    "description_placeholder": "Chaza into yakho — faka imininingwane efana nebrand, usayizi, ubudala, noma amaphutha abathengi abadinga ukwazi.",
+    "category_label": "Uhlobo",
+    "category_default": "Khetha uhlobo",
+    "price_label": "Intengo (ZAR)",
+    "price_placeholder": "0.00",
+    "condition_label": "Isimo",
+    "condition_default": "Khetha isimo",
+    "location_label": "Indawo",
+    "location_placeholder": "Idolobha noma indawo yokuhlala",
+    "phone_label": "Inombolo yocingo",
+    "phone_placeholder": "isb. 071 234 5678",
+    "phone_optional": "iyikhethelo",
+    "submit_btn": "Bhala Into",
+    "cat_electronics": "Izinto ze-elektroniki",
+    "cat_clothing": "Izingubo",
+    "cat_home": "Ikhaya",
+    "cat_vehicles": "Izimoto",
+    "cat_furniture": "Impahla yasekhaya",
+    "cat_books": "Izincwadi",
+    "cat_sports": "Ezemidlalo",
+    "cat_baby": "Izingane",
+    "cat_other": "Okunye",
+    "cond_new": "Entsha",
+    "cond_like_new": "Njengesisha",
+    "cond_good": "Kulungile",
+    "cond_fair": "Phansi kancane",
+    "cond_parts": "Yezingxenye",
+    "tip_1": "Sebenzisa izithombe ezisobala, ezikhanyayo — ukukhanya kwemvelo kusebenza kahle",
+    "tip_2": "Yiba ngqotho ngesimo ukuze wakhe ukwethenjwa kwabathengi",
+    "tip_3": "Linganisa intengo kahle — hlola izintengiso ezifanayo kuqala",
+    "tip_4": "Phendula abathengi ngokushesha ukuvala izivumelwano ngokushesha",
+    "tip_5": "Hlangana ezindaweni eziphephile, zomphakathi uma ushintshanisa izinto",
+    "safety_title": "Uma Nihlangana Emntwini",
+    "safety_1": "Hlangana endaweni yomphakathi — amall noma iziteshi zamaphoyisa zifaneleka",
+    "safety_2": "Letha umngane noma ilungu lomndeni nawe",
+    "safety_3": "Hlola into ngokucophelela ngaphambi kokunikela nganoma yikuphi ukukhokha",
+    "safety_4": "Tshela umuntu othembekile ukuthi uya kuphi nokuhlangana nobani",
+    "safety_5": "Themba imizwa yakho — uma into ingenalungile, hamba"
   }
 }
