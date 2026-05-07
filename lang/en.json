@@ -1,7 +1,8 @@
 {
   "nav": {
     "search_placeholder": "Search for products",
-    "sell_btn": "Sell Now"
+    "sell_btn": "Sell Now",
+    "menu_label": "Menu"
   },
   "login": {
     "title": "Login",
@@ -25,7 +26,66 @@
     "error": "Error"
   },
   "home": {
-    "hero_title": "Driving South Africa's Commerce"
+    "hero_title": "Driving South Africa's Commerce",
+    "browse_category": "Browse by Category",
+    "featured_title": "Featured Listings",
+    "all_listings": "All listings",
+    "view_all": "View all",
+    "view_listing": "View listing",
+    "recent_title": "Recent Listings",
+    "slogan_eyebrow": "South Africa's marketplace",
+    "slogan": "Buy. Sell. Rise.",
+    "slogan_sub": "Thousands of listings across every category — find what you need, or turn what you have into cash."
+  },
+  "profile": {
+    "avatar_hint": "Click to change photo",
+    "member_since": "Member since",
+    "edit_title": "Edit Profile",
+    "name_label": "Name",
+    "email_label": "Email",
+    "save_btn": "Save Changes",
+    "my_listings": "My Listings",
+    "no_listings_title": "No listings yet",
+    "no_listings_desc": "Once you post an item for sale it will appear here.",
+    "post_listing": "Post a listing"
+  },
+  "liked": {
+    "empty_title": "No liked items yet",
+    "empty_desc": "Items you like will appear here. Start browsing and tap the heart on anything that catches your eye.",
+    "browse_btn": "Browse listings"
+  },
+  "footer": {
+    "tagline": "Buy and sell anything, locally.",
+    "explore": "Explore",
+    "home": "Home",
+    "sell_item": "Sell an item",
+    "liked_items": "Liked items",
+    "support": "Support",
+    "help_centre": "Help centre",
+    "safety_tips": "Safety tips",
+    "contact": "Contact us",
+    "legal": "Legal",
+    "terms": "Terms of service",
+    "privacy": "Privacy policy",
+    "cookies": "Cookie policy",
+    "copyright": "All rights reserved."
+  },
+  "modal": {
+    "buy_btn": "Buy Now",
+    "message_btn": "Message Seller"
+  },
+  "product": {
+    "back": "Back",
+    "more_listings": "More Listings"
+  },
+  "filter": {
+    "any_category": "Any category",
+    "any_condition": "Any condition",
+    "price_min": "Min (R)",
+    "price_max": "Max (R)",
+    "clear": "Clear filters",
+    "results": "results",
+    "no_results": "No listings match your filters."
   },
   "sell": {
     "hero": "List your item",
@@ -34,6 +94,47 @@
     "photos_hint": "Add up to 5 photos. First photo will be the cover image.",
     "drop_main": "Drag photos here or click to browse",
     "drop_sub": "JPG, PNG, WEBP — up to 10MB each",
-    "tips_title": "Selling Tips"
+    "tips_title": "Selling Tips",
+    "title_label": "Title",
+    "title_placeholder": "What are you selling?",
+    "description_label": "Description",
+    "description_placeholder": "Describe your item — include details like brand, size, age, or any defects buyers should know about.",
+    "category_label": "Category",
+    "category_default": "Select a category",
+    "price_label": "Price (ZAR)",
+    "price_placeholder": "0.00",
+    "condition_label": "Condition",
+    "condition_default": "Select condition",
+    "location_label": "Location",
+    "location_placeholder": "City or suburb",
+    "phone_label": "Phone Number",
+    "phone_placeholder": "e.g. 071 234 5678",
+    "phone_optional": "optional",
+    "submit_btn": "List Item",
+    "cat_electronics": "Electronics",
+    "cat_clothing": "Clothing",
+    "cat_home": "Home",
+    "cat_vehicles": "Vehicles",
+    "cat_furniture": "Furniture",
+    "cat_books": "Books",
+    "cat_sports": "Sports",
+    "cat_baby": "Baby",
+    "cat_other": "Other",
+    "cond_new": "New",
+    "cond_like_new": "Like New",
+    "cond_good": "Good",
+    "cond_fair": "Fair",
+    "cond_parts": "For Parts / Spares",
+    "tip_1": "Use clear, well-lit photos — natural light works best",
+    "tip_2": "Be honest about the condition to build buyer trust",
+    "tip_3": "Price fairly — check similar listings first",
+    "tip_4": "Respond to buyers quickly to close deals faster",
+    "tip_5": "Meet in safe, public places when exchanging items",
+    "safety_title": "If You're Meeting in Person",
+    "safety_1": "Meet in a public place — shopping centres or police stations are ideal",
+    "safety_2": "Bring a friend or family member with you",
+    "safety_3": "Inspect the item thoroughly before handing over any payment",
+    "safety_4": "Let someone you trust know where you're going and who you're meeting",
+    "safety_5": "Trust your instincts — if something feels off, walk away"
   }
 }

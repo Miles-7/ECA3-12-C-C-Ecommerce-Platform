@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
-    this is liked
-</body>
-
-</html>
+<div class="liked-page-wrapper">
+    <div class="empty-state">
+        <div class="empty-icon">
+            <i class="ri-heart-line"></i>
+        </div>
+        <h2 class="empty-title"><?= t('liked.empty_title') ?></h2>
+        <p class="empty-desc"><?= t('liked.empty_desc') ?></p>
+        <a href="?page=allProducts" class="card-btn"><?= t('liked.browse_btn') ?></a>
+    </div>
+</div>

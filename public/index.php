@@ -17,7 +17,7 @@ require __DIR__ . '/../src/helpers/lang.php';
 $page = $_GET['page'] ?? 'home';
 
 // For security purposes, a whitelist of the allowed pages
-$allowed_pages = ['home', 'profile', 'liked', 'sell'];
+$allowed_pages = ['home', 'profile', 'liked', 'sell', 'allProducts', 'product'];
 
 // check if the provided page via user input is in fact in the array of allowed pages
 if (!in_array($page, $allowed_pages)) {
@@ -67,11 +67,41 @@ if (!in_array($page, $allowed_pages)) {
             case "home":
                 require __DIR__ . '/pages/home.php';
                 break;
+
+            case "allProducts":
+                require __DIR__ . '/pages/allProducts.php';
+                break;
+
+            case "product":
+                require __DIR__ . '/pages/product.php';
+                break;
         }
 
         ?>
 
     </main>
+
+    <?php require __DIR__ . '/../src/components/footer.php'; ?>
+
+    <script>
+        document.addEventListener('click', function (e) {
+            const card = e.target.closest('.product-card');
+            if (!card) return;
+
+            const params = new URLSearchParams({
+                page:      'product',
+                title:     card.querySelector('.card-title')?.textContent.trim()     ?? '',
+                desc:      card.querySelector('.card-desc')?.textContent.trim()      ?? '',
+                price:     card.querySelector('.card-price')?.textContent.trim()     ?? '',
+                condition: card.querySelector('.card-condition')?.textContent.trim() ?? '',
+                category:  card.querySelector('.card-category')?.textContent.trim()  ?? '',
+                location:  card.dataset.location ?? '',
+                img_bg:    card.dataset.imgBg    ?? '#D9C5B2',
+                img_icon:  card.dataset.imgIcon  ?? ''
+            });
+            window.location.href = '?' + params.toString();
+        });
+    </script>
 
 </body>
 
