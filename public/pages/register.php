@@ -52,7 +52,7 @@
     </div>
 
     <script>
-        document.getElementById('lang-select').addEventListener('change', function () {
+        document.getElementById('lang-select').addEventListener('change', function() {
             const url = new URL(window.location.href);
             url.searchParams.set('lang', this.value);
             window.location.href = url.toString();
@@ -67,12 +67,18 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            const formData = { name, email, password };
+            const formData = {
+                name,
+                email,
+                password
+            };
 
             try {
                 const response = await fetch('../../api/register.php', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify(formData)
                 });
 
