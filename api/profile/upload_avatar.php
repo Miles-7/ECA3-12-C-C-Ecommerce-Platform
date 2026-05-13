@@ -14,6 +14,8 @@ if (!isset($_FILES['avatar']) || $_FILES['avatar']['error'] !== UPLOAD_ERR_OK) {
     exit;
 }
 
+
+
 $file          = $_FILES['avatar'];
 $allowedTypes  = ['image/jpeg', 'image/png', 'image/webp'];
 $maxSize       = 5 * 1024 * 1024; // 5 MB
@@ -28,18 +30,18 @@ if ($file['size'] > $maxSize) {
     exit;
 }
 
-$ext       = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-$filename  = $_SESSION['user_id'] . '.' . $ext;
-$uploadDir = __DIR__ . '/../public/uploads/avatars/';
+$ext       = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION)); // see if the file is jpeg, png or webp
+$filename  = $_SESSION['user_id'] . '.' . $ext;   // the file name will be the userID.extension  
+$uploadDir = __DIR__ . '/../../public/uploads/avatars/';   // the dir to where the files will be uploaded 
 
 if (!move_uploaded_file($file['tmp_name'], $uploadDir . $filename)) {
     echo json_encode(['success' => false, 'message' => 'Failed to save file']);
     exit;
 }
 
-require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../../config/database.php';
 
-$stmt = $db->prepare('UPDATE users SET profile_picture = :pic WHERE id = :id');
+$stmt = $db->prepare('UPDATE user SET profile_upload = :pic WHERE userID = :id');
 $stmt->execute([':pic' => $filename, ':id' => $_SESSION['user_id']]);
 
 echo json_encode(['success' => true, 'filename' => $filename]);

@@ -152,8 +152,8 @@
         const MAX_PHOTOS = 5;
         let photos = [];
 
-        const dropZone   = document.getElementById('dropZone');
-        const fileInput  = document.getElementById('fileInput');
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
         const previewGrid = document.getElementById('previewGrid');
 
         // ── Initial drop zone ────────────────────────────────────────
@@ -196,12 +196,12 @@
 
             if (photos.length === 0) {
                 previewGrid.style.display = 'none';
-                dropZone.style.display    = '';
+                dropZone.style.display = '';
                 return;
             }
 
             previewGrid.style.display = 'flex';
-            dropZone.style.display    = 'none';
+            dropZone.style.display = 'none';
 
             photos.forEach((file, i) => {
                 // reuse or create object URL
@@ -223,7 +223,7 @@
                 }
 
                 const removeBtn = document.createElement('button');
-                removeBtn.type      = 'button';
+                removeBtn.type = 'button';
                 removeBtn.className = 'remove-btn';
                 removeBtn.innerHTML = '&times;';
                 removeBtn.addEventListener('click', () => removePhoto(i));
@@ -246,8 +246,8 @@
                 tile.appendChild(label);
 
                 const moreInput = document.createElement('input');
-                moreInput.type     = 'file';
-                moreInput.accept   = 'image/*';
+                moreInput.type = 'file';
+                moreInput.accept = 'image/*';
                 moreInput.multiple = true;
                 moreInput.addEventListener('change', e => {
                     addFiles(Array.from(e.target.files));
@@ -258,6 +258,43 @@
                 previewGrid.appendChild(tile);
             }
         }
+
+        // ── Form submit ──────────────────────────────────────────────
+        document.querySelector('.sell-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            if (photos.length === 0) {
+                alert('Please add at least one photo.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('title',       document.getElementById('item-title').value.trim());
+            formData.append('description', document.getElementById('item-description').value.trim());
+            formData.append('category',    document.getElementById('item-category').value.trim());
+            formData.append('condition',   document.getElementById('item-condition').value.trim());
+            formData.append('price',       document.getElementById('item-price').value.trim());
+            formData.append('location',    document.getElementById('item-location').value.trim());
+            formData.append('phoneNum',    document.getElementById('item-phone').value.trim());
+
+            // Append each image — index 0 is always the cover
+            photos.forEach((file, i) => formData.append(`images[${i}]`, file));
+
+            try {
+                const res = await fetch('../api/listing/create_listing.php', {
+                    method: 'POST',
+                    body: formData  // no Content-Type header — browser sets multipart boundary
+                });
+                const result = await res.json();
+                if (result.success) {
+                    window.location.href = '?page=home';
+                } else {
+                    alert(result.message);
+                }
+            } catch (err) {
+                alert('Something went wrong, please try again.');
+            }
+        });
     </script>
 
 </body>

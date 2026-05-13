@@ -1,12 +1,9 @@
 <?php
 
-// PDO = PhP Database Objects
-try{
-    $db = new PDO('sqlite:' .__DIR__ .'/../database/e-commerce.db');
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-}catch(PDOException $e){
-    die("Connection failed: " . $e->getMessage());
-}
+$host   = "localhost";
+$dbname = "vuka_db";    // your database name in phpMyAdmin
+$user   = "root";
+$pass   = "";           // blank by default on XAMPP
 
-?>
+$db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -1,13 +1,13 @@
 <?php
 require_once __DIR__ . '/../../config/database.php';
 
-$stmt = $db->prepare('SELECT id, name, email, profile_picture, created_at FROM users WHERE id = :id');
+$stmt = $db->prepare('SELECT userID, username, email, profile_upload, createdAt FROM user WHERE userID = :id');
 $stmt->execute([':id' => $_SESSION['user_id']]);
 $user = $stmt->fetch();
 
-$avatarFile = $user['profile_picture'] ?? null;
+$avatarFile = $user['profile_upload'] ?? null;
 $avatarSrc  = $avatarFile ? 'uploads/avatars/' . htmlspecialchars($avatarFile) : null;
-$memberSince = date('F Y', strtotime($user['created_at']));
+$memberSince = date('F Y', strtotime($user['createdAt']));
 ?>
 
 <div class="profile-page-wrapper">
@@ -40,7 +40,7 @@ $memberSince = date('F Y', strtotime($user['created_at']));
 
         <!-- Name + meta -->
         <div class="profile-identity">
-            <h1 class="profile-heading" id="profileHeading"><?= htmlspecialchars($user['name']) ?></h1>
+            <h1 class="profile-heading" id="profileHeading"><?= htmlspecialchars($user['username']) ?></h1>
             <p class="profile-meta"><?= t('profile.member_since') ?> <?= $memberSince ?></p>
         </div>
 
@@ -53,13 +53,13 @@ $memberSince = date('F Y', strtotime($user['created_at']));
                 <div class="sell-field">
                     <label for="profileName"><?= t('profile.name_label') ?></label>
                     <input class="sell-input" type="text" id="profileName" name="name"
-                           value="<?= htmlspecialchars($user['name']) ?>" required>
+                        value="<?= htmlspecialchars($user['username']) ?>" required>
                 </div>
 
                 <div class="sell-field">
                     <label for="profileEmail"><?= t('profile.email_label') ?></label>
                     <input class="sell-input" type="email" id="profileEmail" name="email"
-                           value="<?= htmlspecialchars($user['email']) ?>" required>
+                        value="<?= htmlspecialchars($user['email']) ?>" required>
                 </div>
 
                 <div id="profileMsg" class="profile-message" style="display:none;"></div>
@@ -89,14 +89,14 @@ $memberSince = date('F Y', strtotime($user['created_at']));
 
 <script>
     // ── Avatar ───────────────────────────────────────────────────────
-    const avatarWrapper     = document.getElementById('avatarWrapper');
-    const avatarInput       = document.getElementById('avatarInput');
-    const avatarImg         = document.getElementById('avatarImg');
+    const avatarWrapper = document.getElementById('avatarWrapper');
+    const avatarInput = document.getElementById('avatarInput');
+    const avatarImg = document.getElementById('avatarImg');
     const avatarPlaceholder = document.getElementById('avatarPlaceholder');
 
     avatarWrapper.addEventListener('click', () => avatarInput.click());
 
-    avatarInput.addEventListener('change', async function () {
+    avatarInput.addEventListener('change', async function() {
         const file = this.files[0];
         if (!file) return;
 
@@ -107,37 +107,48 @@ $memberSince = date('F Y', strtotime($user['created_at']));
         const body = new FormData();
         body.append('avatar', file);
 
-        const res    = await fetch('../api/upload_avatar.php', { method: 'POST', body });
-        const result = await res.json();
-
-        if (!result.success) showMsg(result.message, 'error');
+        try {
+            const res = await fetch('../api/profile/upload_avatar.php', {
+                method: 'POST',
+                body
+            });
+            const result = await res.json();
+            if (!result.success) showMsg(result.message, 'error');
+        } catch (err) {
+            showMsg('Avatar upload failed, please try again.', 'error');
+        }
     });
 
     // ── Profile form ─────────────────────────────────────────────────
-    document.getElementById('profileForm').addEventListener('submit', async function (e) {
+    document.getElementById('profileForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        const name  = document.getElementById('profileName').value.trim();
+        const name = document.getElementById('profileName').value.trim();
         const email = document.getElementById('profileEmail').value.trim();
 
-        const res    = await fetch('../api/update_profile.php', {
-            method:  'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body:    JSON.stringify({ name, email })
-        });
-        const result = await res.json();
-
-        showMsg(result.message, result.success ? 'success' : 'error');
-        if (result.success) {
-            document.getElementById('profileHeading').textContent = name;
+        try {
+            const res = await fetch('../api/profile/update_profile.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email })
+            });
+            const result = await res.json();
+            showMsg(result.message, result.success ? 'success' : 'error');
+            if (result.success) {
+                document.getElementById('profileHeading').textContent = name;
+            }
+        } catch (err) {
+            showMsg('Something went wrong, please try again.', 'error');
         }
     });
 
     function showMsg(text, type) {
         const el = document.getElementById('profileMsg');
-        el.textContent   = text;
-        el.className     = 'profile-message ' + type;
+        el.textContent = text;
+        el.className = 'profile-message ' + type;
         el.style.display = 'block';
-        setTimeout(() => { el.style.display = 'none'; }, 4000);
+        setTimeout(() => {
+            el.style.display = 'none';
+        }, 4000);
     }
 </script>
