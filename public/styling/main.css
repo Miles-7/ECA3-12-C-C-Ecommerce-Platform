@@ -1153,6 +1153,7 @@ form {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    
 }
 
 .empty-state--inline .empty-icon {
@@ -1456,6 +1457,7 @@ form {
     background: var(--white);
     border-radius: 14px;
     padding: 3.5rem 2rem;
+
 }
 
 .empty-icon {

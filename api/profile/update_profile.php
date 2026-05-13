@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-$data  = json_decode(file_get_contents('php://input'), true);
+$data  = json_decode(file_get_contents('php://input'), true) ?? [];
 $name  = trim($data['name']  ?? '');
 $email = trim($data['email'] ?? '');
 
@@ -23,17 +23,17 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
-require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../../config/database.php';
 
 // check email isn't taken by a different account
-$stmt = $db->prepare('SELECT id FROM users WHERE email = :email AND id != :id');
+$stmt = $db->prepare('SELECT userID FROM user WHERE email = :email AND userID != :id');
 $stmt->execute([':email' => $email, ':id' => $_SESSION['user_id']]);
 if ($stmt->fetch()) {
     echo json_encode(['success' => false, 'message' => 'That email address is already in use']);
     exit;
 }
 
-$stmt = $db->prepare('UPDATE users SET name = :name, email = :email WHERE id = :id');
+$stmt = $db->prepare('UPDATE user SET username = :name, email = :email WHERE userID = :id');
 $stmt->execute([':name' => $name, ':email' => $email, ':id' => $_SESSION['user_id']]);
 
 $_SESSION['user_name']  = $name;

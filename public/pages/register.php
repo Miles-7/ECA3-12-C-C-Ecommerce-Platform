@@ -67,14 +67,17 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
+            const lang = document.getElementById('lang-select').value;
+
             const formData = {
                 name,
                 email,
-                password
+                password,
+                lang
             };
 
             try {
-                const response = await fetch('../../api/register.php', {
+                const response = await fetch('../../api/auth/register.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
