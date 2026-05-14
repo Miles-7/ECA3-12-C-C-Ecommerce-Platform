@@ -1,55 +1,75 @@
 <?php
-$title     = htmlspecialchars($_GET['title']     ?? '', ENT_QUOTES);
-$desc      = htmlspecialchars($_GET['desc']      ?? '', ENT_QUOTES);
-$price     = htmlspecialchars($_GET['price']     ?? '', ENT_QUOTES);
-$condition = htmlspecialchars($_GET['condition'] ?? '', ENT_QUOTES);
-$category  = htmlspecialchars($_GET['category']  ?? '', ENT_QUOTES);
-$location  = htmlspecialchars($_GET['location']  ?? '', ENT_QUOTES);
-$img_bg    = preg_match('/^#[0-9a-fA-F]{3,6}$/', $_GET['img_bg']   ?? '') ? $_GET['img_bg']   : '#D9C5B2';
-$img_icon  = preg_match('/^[a-z0-9-]+$/',         $_GET['img_icon'] ?? '') ? $_GET['img_icon'] : 'ri-price-tag-3-line';
+require_once __DIR__ . '/../../config/database.php';
 
-$more = [
-    [
-        'title'       => 'Vintage Leather 3-Seater Couch',
-        'description' => 'Rich tan leather, minor wear on armrests. Solid hardwood frame. Bought in 2019, moving sale.',
-        'price'       => 'R 2 200',
-        'condition'   => t('sell.cond_good'),
-        'category'    => t('sell.cat_furniture'),
-        'location'    => 'Johannesburg, GP',
-        'img_bg'      => '#C9B49A',
-        'img_icon'    => 'ri-sofa-line',
-    ],
-    [
-        'title'       => 'Trek Marlin 7 Mountain Bike — Medium',
-        'description' => '29" wheels, hydraulic disc brakes, recently serviced. Great condition for trail or commuting.',
-        'price'       => 'R 3 800',
-        'condition'   => t('sell.cond_good'),
-        'category'    => t('sell.cat_sports'),
-        'location'    => 'Durban, KZN',
-        'img_bg'      => '#B5C4B1',
-        'img_icon'    => 'ri-riding-line',
-    ],
-    [
-        'title'       => 'Canon EOS 90D + 18-55mm Kit Lens',
-        'description' => 'Low shutter count (~4k), full HD video. Includes 2 batteries, 64 GB SD card and carry bag.',
-        'price'       => 'R 12 000',
-        'condition'   => t('sell.cond_like_new'),
-        'category'    => t('sell.cat_electronics'),
-        'location'    => 'Pretoria, GP',
-        'img_bg'      => '#C4B8A8',
-        'img_icon'    => 'ri-camera-3-line',
-    ],
-    [
-        'title'       => 'Nike Air Max 90 — Size 10',
-        'description' => 'Worn twice, basically new. All original packaging included. No scuffs or sole wear.',
-        'price'       => 'R 1 200',
-        'condition'   => t('sell.cond_like_new'),
-        'category'    => t('sell.cat_clothing'),
-        'location'    => 'Bloemfontein, FS',
-        'img_bg'      => '#C8D4C0',
-        'img_icon'    => 'ri-footprint-line',
-    ],
+$listingID = $_GET['listingID'] ?? '';
+
+// Redirect back home if no valid ID provided
+if (empty($listingID)) {
+    header('Location: ?page=home');
+    exit;
+}
+
+// Fetch the listing
+$stmt = $db->prepare(
+    'SELECT l.listingID, l.sellerID, l.title, l.description, l.price, l.itemCondition, l.category, l.location, l.phoneNum,
+            u.username AS sellerName, u.profile_upload AS sellerAvatar, u.rating AS sellerRating
+     FROM listing l
+     JOIN user u ON u.userID = l.sellerID
+     WHERE l.listingID = :id AND l.status = "active"'
+);
+$stmt->execute([':id' => $listingID]);
+$listing = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$listing) {
+    header('Location: ?page=home');
+    exit;
+}
+
+$currentUserID = $_SESSION['user_id'];
+$isSeller      = $listing['sellerID'] === $currentUserID;
+
+// Check if the current user has already rated this listing
+$ratedStmt = $db->prepare('SELECT stars FROM rating WHERE listingID = :lid AND buyerID = :bid');
+$ratedStmt->execute([':lid' => $listingID, ':bid' => $currentUserID]);
+$existingRating = $ratedStmt->fetchColumn();
+
+// Fetch all images for this listing ordered by sortOrder
+$imgStmt = $db->prepare(
+    'SELECT filename FROM listing_images WHERE listingID = :id ORDER BY sortOrder ASC'
+);
+$imgStmt->execute([':id' => $listingID]);
+$images = $imgStmt->fetchAll(PDO::FETCH_COLUMN);
+
+// Build image paths
+$imagePaths = array_map(
+    fn($f) => 'uploads/listings/' . $listingID . '/' . htmlspecialchars($f),
+    $images
+);
+
+// Fetch more listings from the same category (exclude current)
+$moreStmt = $db->prepare(
+    'SELECT l.listingID, l.title, l.description, l.price, l.itemCondition, l.category, l.location,
+            li.filename AS cover,
+            u.username AS sellerName, u.phoneNum AS sellerPhone, u.profile_upload AS sellerAvatar, u.rating AS sellerRating
+     FROM listing l
+     LEFT JOIN listing_images li ON li.listingID = l.listingID AND li.sortOrder = 0
+     JOIN user u ON u.userID = l.sellerID
+     WHERE l.status = "active" AND l.listingID != :id AND l.category = :cat
+     ORDER BY l.createdAt DESC
+     LIMIT 4'
+);
+$moreStmt->execute([':id' => $listingID, ':cat' => $listing['category']]);
+$more = $moreStmt->fetchAll(PDO::FETCH_ASSOC);
+
+$conditionLabels = [
+    'new'      => t('sell.cond_new'),
+    'like_new' => t('sell.cond_like_new'),
+    'good'     => t('sell.cond_good'),
+    'fair'     => t('sell.cond_fair'),
+    'parts'    => t('sell.cond_parts'),
 ];
+
+$condLabel = $conditionLabels[$listing['itemCondition']] ?? htmlspecialchars($listing['itemCondition']);
 ?>
 
 <div class="product-page">
@@ -60,29 +80,70 @@ $more = [
 
     <div class="product-detail">
 
-        <div class="product-detail-img" style="background-color: <?= $img_bg ?>">
-            <i class="<?= $img_icon ?>"></i>
+        <!-- ── Image gallery ── -->
+        <div class="product-gallery">
+            <?php if (!empty($imagePaths)): ?>
+                <div class="gallery-main">
+                    <img src="<?= $imagePaths[0] ?>" alt="<?= htmlspecialchars($listing['title']) ?>" id="galleryMain">
+                </div>
+                <?php if (count($imagePaths) > 1): ?>
+                    <div class="gallery-thumbs">
+                        <?php foreach ($imagePaths as $i => $src): ?>
+                            <div class="gallery-thumb <?= $i === 0 ? 'active' : '' ?>" data-src="<?= $src ?>">
+                                <img src="<?= $src ?>" alt="Image <?= $i + 1 ?>">
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            <?php else: ?>
+                <div class="gallery-main gallery-placeholder">
+                    <i class="ri-image-line"></i>
+                </div>
+            <?php endif; ?>
         </div>
 
+        <!-- ── Listing details ── -->
         <div class="product-detail-body">
 
             <div class="product-badges">
-                <span class="card-condition"><?= $condition ?></span>
-                <span class="card-category"><?= $category ?></span>
+                <span class="card-condition"><?= $condLabel ?></span>
+                <span class="card-category"><?= htmlspecialchars($listing['category']) ?></span>
             </div>
 
-            <h1 class="product-title"><?= $title ?></h1>
+            <h1 class="product-title"><?= htmlspecialchars($listing['title']) ?></h1>
 
-            <p class="product-price"><?= $price ?></p>
+            <p class="product-price">R <?= number_format((float)$listing['price'], 2) ?></p>
 
             <div class="product-location">
                 <i class="ri-map-pin-2-line"></i>
-                <span><?= $location ?></span>
+                <span><?= htmlspecialchars($listing['location'] ?? '') ?></span>
             </div>
 
             <div class="product-description">
                 <p class="product-desc-label"><?= t('sell.description_label') ?></p>
-                <p class="product-desc"><?= $desc ?></p>
+                <p class="product-desc"><?= htmlspecialchars($listing['description']) ?></p>
+            </div>
+
+            <?php $sellerAvatar = $listing['sellerAvatar']
+                ? 'uploads/avatars/' . htmlspecialchars($listing['sellerAvatar'])
+                : null; ?>
+            <div class="product-seller">
+                <div class="card-seller-avatar">
+                    <?php if ($sellerAvatar): ?>
+                        <img src="<?= $sellerAvatar ?>" alt="<?= htmlspecialchars($listing['sellerName']) ?>">
+                    <?php else: ?>
+                        <i class="ri-user-line"></i>
+                    <?php endif; ?>
+                </div>
+                <div class="card-seller-details">
+                    <span class="card-seller-name"><?= htmlspecialchars($listing['sellerName']) ?></span>
+                    <?php if (!empty($listing['phoneNum'])): ?>
+                        <span class="card-seller-phone"><?= htmlspecialchars($listing['phoneNum']) ?></span>
+                    <?php endif; ?>
+                    <div class="card-seller-stars">
+                        <?php renderStars(isset($listing['sellerRating']) ? (float)$listing['sellerRating'] : null); ?>
+                    </div>
+                </div>
             </div>
 
             <div class="product-actions">
@@ -92,52 +153,195 @@ $more = [
                 </button>
             </div>
 
+            <!-- ── Rate this seller ── -->
+            <?php if (!$isSeller): ?>
+                <div class="rate-seller">
+                    <p class="rate-seller-label">
+                        <?= $existingRating !== false ? 'Your rating' : 'Rate this seller' ?>
+                    </p>
+                    <div class="rate-stars" id="rateStars">
+                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                            <i class="<?= ($existingRating !== false && $i <= (int)$existingRating) ? 'ri-star-fill' : 'ri-star-line' ?>"
+                                data-star="<?= $i ?>"></i>
+                        <?php endfor; ?>
+                    </div>
+                    <?php if ($existingRating !== false): ?>
+                        <p class="rate-seller-note">You rated this seller <?= (int)$existingRating ?> / 5</p>
+                    <?php else: ?>
+                        <p class="rate-seller-note" id="rateMsg"></p>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+
         </div>
     </div>
 
-    <!-- ── More Listings ─────────────────────────── -->
-    <section class="featured-section">
+    <!-- ── More from this category ─────────────────── -->
+    <?php if (!empty($more)): ?>
+        <section class="featured-section">
 
-        <div class="featured-header">
-            <h2 class="featured-title"><?= t('product.more_listings') ?></h2>
-            <a href="?page=allProducts" class="featured-view-all">
-                <?= t('home.view_all') ?> <i class="ri-arrow-right-line"></i>
-            </a>
-        </div>
+            <div class="featured-header">
+                <h2 class="featured-title"><?= t('product.more_listings') ?></h2>
+                <a href="?page=allProducts" class="featured-view-all">
+                    <?= t('home.view_all') ?> <i class="ri-arrow-right-line"></i>
+                </a>
+            </div>
 
-        <div class="listing-grid">
-            <?php foreach ($more as $item): ?>
-                <div class="product-card"
-                     data-img-bg="<?= $item['img_bg'] ?>"
-                     data-img-icon="<?= $item['img_icon'] ?>"
-                     data-location="<?= htmlspecialchars($item['location']) ?>">
+            <div class="listing-grid">
+                <?php foreach ($more as $item):
+                    $coverSrc      = $item['cover']
+                        ? 'uploads/listings/' . $item['listingID'] . '/' . htmlspecialchars($item['cover'])
+                        : null;
+                    $moreAvatarSrc = $item['sellerAvatar']
+                        ? 'uploads/avatars/' . htmlspecialchars($item['sellerAvatar'])
+                        : null;
+                    $moreCondLabel = $conditionLabels[$item['itemCondition']] ?? htmlspecialchars($item['itemCondition']);
+                ?>
+                    <div class="product-card"
+                        data-listing-id="<?= htmlspecialchars($item['listingID']) ?>"
+                        data-location="<?= htmlspecialchars($item['location'] ?? '') ?>">
 
-                    <div class="card-img" style="background-color: <?= $item['img_bg'] ?>">
-                        <i class="<?= $item['img_icon'] ?>"></i>
-                        <span class="card-condition"><?= $item['condition'] ?></span>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="card-meta">
-                            <span class="card-category"><?= $item['category'] ?></span>
-                            <span class="card-location">
-                                <i class="ri-map-pin-2-line"></i><?= $item['location'] ?>
-                            </span>
+                        <div class="card-img">
+                            <?php if ($coverSrc): ?>
+                                <img src="<?= $coverSrc ?>" alt="<?= htmlspecialchars($item['title']) ?>">
+                            <?php else: ?>
+                                <div class="card-img-placeholder"><i class="ri-image-line"></i></div>
+                            <?php endif; ?>
+                            <span class="card-condition"><?= $moreCondLabel ?></span>
                         </div>
 
-                        <h3 class="card-title"><?= htmlspecialchars($item['title']) ?></h3>
-                        <p class="card-desc"><?= htmlspecialchars($item['description']) ?></p>
-
-                        <div class="card-footer">
-                            <span class="card-price"><?= $item['price'] ?></span>
-                            <button class="card-btn"><?= t('home.view_listing') ?></button>
+                        <div class="card-body">
+                            <div class="card-meta">
+                                <span class="card-category"><?= htmlspecialchars($item['category']) ?></span>
+                                <span class="card-location">
+                                    <i class="ri-map-pin-2-line"></i><?= htmlspecialchars($item['location'] ?? '') ?>
+                                </span>
+                            </div>
+                            <h3 class="card-title"><?= htmlspecialchars($item['title']) ?></h3>
+                            <p class="card-desc"><?= htmlspecialchars($item['description']) ?></p>
+                            <div class="card-footer">
+                                <span class="card-price">R <?= number_format((float)$item['price'], 2) ?></span>
+                                <button class="card-btn"><?= t('home.view_listing') ?></button>
+                            </div>
+                            <div class="card-seller">
+                                <div class="card-seller-avatar">
+                                    <?php if ($moreAvatarSrc): ?>
+                                        <img src="<?= $moreAvatarSrc ?>" alt="<?= htmlspecialchars($item['sellerName']) ?>">
+                                    <?php else: ?>
+                                        <i class="ri-user-line"></i>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="card-seller-details">
+                                    <span class="card-seller-name"><?= htmlspecialchars($item['sellerName']) ?></span>
+                                    <?php if (!empty($item['sellerPhone'])): ?>
+                                        <span class="card-seller-phone"><?= htmlspecialchars($item['sellerPhone']) ?></span>
+                                    <?php endif; ?>
+                                    <div class="card-seller-stars">
+                                        <?php renderStars(isset($item['sellerRating']) ? (float)$item['sellerRating'] : null); ?>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
+                <?php endforeach; ?>
+            </div>
 
-                </div>
-            <?php endforeach; ?>
-        </div>
-
-    </section>
+        </section>
+    <?php endif; ?>
 
 </div>
+
+<script>
+    // ── Gallery ──────────────────────────────────────────
+    document.querySelectorAll('.gallery-thumb').forEach(function(thumb) {
+        thumb.addEventListener('click', function() {
+            document.getElementById('galleryMain').src = this.dataset.src;
+            document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // ── Star rating ──────────────────────────────────────
+    const rateStars = document.getElementById('rateStars');
+    const rateMsg = document.getElementById('rateMsg');
+    const alreadyRated = <?= $existingRating !== false ? 'true' : 'false' ?>;
+
+    if (rateStars && !alreadyRated) {
+        const stars = rateStars.querySelectorAll('i');
+
+        // Hover highlight
+        stars.forEach(star => {
+            star.addEventListener('mouseenter', function() {
+                const val = parseInt(this.dataset.star);
+                stars.forEach((s, i) => {
+                    s.className = i < val ? 'ri-star-fill' : 'ri-star-line';
+                });
+            });
+        });
+
+        rateStars.addEventListener('mouseleave', function() {
+            stars.forEach(s => s.className = 'ri-star-line');
+        });
+
+        // Click to submit
+        stars.forEach(star => {
+            star.addEventListener('click', async function() {
+                const selectedStars = parseInt(this.dataset.star);
+
+                try {
+                    const res = await fetch('../api/rating/submit_rating.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            listingID: '<?= htmlspecialchars($listingID) ?>',
+                            stars: selectedStars
+                        })
+                    });
+                    const result = await res.json();
+
+                    if (result.success) {
+                        // Lock stars at submitted value
+                        stars.forEach((s, i) => {
+                            s.className = i < selectedStars ? 'ri-star-fill' : 'ri-star-line';
+                        });
+                        rateStars.style.pointerEvents = 'none';
+                        if (rateMsg) rateMsg.textContent = 'You rated this seller ' + selectedStars + ' / 5';
+                    } else {
+                        if (rateMsg) rateMsg.textContent = result.message;
+                    }
+                } catch (err) {
+                    if (rateMsg) rateMsg.textContent = 'Something went wrong, please try again.';
+                }
+            });
+        });
+    }
+
+
+    // parse the listingID onto order when the purchase button is clicked
+    document.querySelector('.product-buy-btn').addEventListener('click', async function() {
+        try {
+            const res = await fetch('../api/order/create_order.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    listingID: '<?= htmlspecialchars($listingID) ?>'
+                })
+            });
+            const result = await res.json();
+
+            if (result.success) {
+                alert('Purchase successful!');
+                window.location.href = '?page=orders';
+            } else {
+                alert(result.message);
+            }
+        } catch (err) {
+            alert('Something went wrong, please try again.');
+        }
+    });
+</script>

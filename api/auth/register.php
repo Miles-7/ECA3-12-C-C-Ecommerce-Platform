@@ -63,6 +63,9 @@ try {
     $stmt = $db->prepare("INSERT INTO seller (userID) VALUES (:userID)");
     $stmt->execute([':userID' => $uuid]);
 
+    $stmt = $db->prepare("INSERT INTO buyer (userID, savedCount) VALUES (:userID, 0)");
+    $stmt->execute([':userID' => $uuid]);
+
     $db->commit();
 
     echo json_encode([
