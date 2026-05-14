@@ -1307,8 +1307,28 @@ form {
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    background-color: #e8e0d8;
 }
 
+.card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.card-img-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.card-img-placeholder i,
 .card-img i {
     font-size: 3rem;
     color: rgba(255, 255, 255, 0.65);
@@ -1401,6 +1421,71 @@ form {
     justify-content: space-between;
     margin-top: 0.25rem;
     gap: 0.5rem;
+}
+
+/* ── Seller section on cards ── */
+.card-seller {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(0,0,0,0.07);
+}
+
+.card-seller-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #e8e0d8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    font-size: 1rem;
+    color: var(--stone);
+}
+
+.card-seller-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-seller-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+}
+
+.card-seller-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--stone);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-seller-phone {
+    font-size: 0.75rem;
+    color: #888;
+}
+
+.card-seller-stars {
+    display: flex;
+    align-items: center;
+    gap: 0.1rem;
+    font-size: 0.7rem;
+    color: #c8a96e;
+}
+
+.card-seller-stars span {
+    margin-left: 0.25rem;
+    color: #888;
+    font-size: 0.7rem;
 }
 
 .card-price {
@@ -2035,6 +2120,65 @@ form {
     color: rgba(0,0,0,.14);
 }
 
+/* ── Image gallery ── */
+.product-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.gallery-main {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: #e8e0d8;
+}
+
+.gallery-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.2s ease;
+}
+
+.gallery-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    color: rgba(0,0,0,.14);
+}
+
+.gallery-thumbs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.gallery-thumb {
+    width: 72px;
+    height: 72px;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.15s ease;
+    flex-shrink: 0;
+}
+
+.gallery-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.gallery-thumb.active {
+    border-color: var(--clay);
+}
+
 .product-detail-body {
     padding: 2.5rem;
     display: flex;
@@ -2096,6 +2240,37 @@ form {
     flex-wrap: wrap;
 }
 
+/* ── Rate seller ── */
+.rate-seller {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(0,0,0,0.07);
+}
+
+.rate-seller-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--stone);
+    margin-bottom: 0.4rem;
+}
+
+.rate-stars {
+    display: flex;
+    gap: 0.25rem;
+    font-size: 1.6rem;
+    color: #c8a96e;
+    cursor: pointer;
+}
+
+.rate-stars i { transition: transform 0.1s ease; }
+.rate-stars i:hover { transform: scale(1.2); }
+
+.rate-seller-note {
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+    color: #888;
+}
+
 .product-buy-btn {
     flex: 1;
     background: var(--clay);
@@ -2109,6 +2284,125 @@ form {
     transition: opacity .2s;
 }
 .product-buy-btn:hover { opacity: .88; }
+
+/* ── Profile balance ── */
+.profile-balance {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--stone-mid);
+}
+.profile-balance i { color: var(--clay); font-size: 1.1rem; }
+.profile-balance strong { color: var(--stone); }
+
+/* ── Profile tabs ── */
+.profile-tabs-section {
+    margin-top: 2rem;
+}
+
+.profile-tabs {
+    display: flex;
+    gap: 0.25rem;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 1.5rem;
+}
+
+.profile-tab {
+    background: none;
+    border: none;
+    padding: 0.65rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--stone-mid);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.15s;
+}
+.profile-tab:hover { color: var(--stone); }
+.profile-tab.active {
+    color: var(--clay);
+    border-bottom-color: var(--clay);
+}
+
+/* ── Order list & cards ── */
+.order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.order-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
+}
+
+.order-card-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: var(--linen-dark);
+}
+.order-card-img img { width: 100%; height: 100%; object-fit: cover; }
+.order-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--stone-light);
+    font-size: 1.4rem;
+}
+
+.order-card-body {
+    flex: 1;
+    min-width: 0;
+}
+.order-card-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.order-card-sub {
+    font-size: 0.8rem;
+    color: var(--stone-mid);
+    margin-top: 0.2rem;
+}
+
+.order-card-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+/* ── Status badges ── */
+.order-status {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+    border-radius: 2rem;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+.order-status--paid      { background: #FFF3CD; color: #856404; }
+.order-status--shipped   { background: #CCE5FF; color: #004085; }
+.order-status--delivered { background: #D4EDDA; color: #155724; }
+.order-status--active    { background: #D4EDDA; color: #155724; }
+.order-status--sold      { background: var(--linen-dark); color: var(--stone-mid); }
+.order-status--inactive  { background: var(--linen-dark); color: var(--stone-mid); }
 
 .product-msg-btn {
     display: flex;

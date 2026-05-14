@@ -10,6 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 require __DIR__ . '/../src/helpers/lang.php';
+require __DIR__ . '/../src/helpers/rating.php';
 
 
 
@@ -88,18 +89,10 @@ if (!in_array($page, $allowed_pages)) {
             const card = e.target.closest('.product-card');
             if (!card) return;
 
-            const params = new URLSearchParams({
-                page:      'product',
-                title:     card.querySelector('.card-title')?.textContent.trim()     ?? '',
-                desc:      card.querySelector('.card-desc')?.textContent.trim()      ?? '',
-                price:     card.querySelector('.card-price')?.textContent.trim()     ?? '',
-                condition: card.querySelector('.card-condition')?.textContent.trim() ?? '',
-                category:  card.querySelector('.card-category')?.textContent.trim()  ?? '',
-                location:  card.dataset.location ?? '',
-                img_bg:    card.dataset.imgBg    ?? '#D9C5B2',
-                img_icon:  card.dataset.imgIcon  ?? ''
-            });
-            window.location.href = '?' + params.toString();
+            const listingID = card.dataset.listingId;
+            if (!listingID) return;
+
+            window.location.href = '?page=product&listingID=' + encodeURIComponent(listingID);
         });
     </script>
 

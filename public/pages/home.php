@@ -1,131 +1,95 @@
 <?php
+require_once __DIR__ . '/../../config/database.php';
 
-// hard code for now till i start backend
-$recent = [
-    [
-        'title'       => 'Nike Air Max 90 — Size 10',
-        'description' => 'Worn twice, basically new. All original packaging included. No scuffs or sole wear.',
-        'price'       => '1 200',
-        'condition'   => 'Like New',
-        'category'    => 'Clothing',
-        'location'    => 'Bloemfontein, FS',
-        'img_bg'      => '#C8D4C0',
-        'img_icon'    => 'ri-footprint-line',
-    ],
-    [
-        'title'       => 'IKEA BILLY Bookcase — White',
-        'description' => 'Solid condition, some minor shelf scuffs. All fittings included. Disassembled for easy transport.',
-        'price'       => '450',
-        'condition'   => 'Good',
-        'category'    => 'Furniture',
-        'location'    => 'Cape Town, WC',
-        'img_bg'      => '#D8CFC7',
-        'img_icon'    => 'ri-book-shelf-line',
-    ],
-    [
-        'title'       => 'PlayStation 5 DualSense Controller',
-        'description' => 'Midnight Black edition. Light use, triggers and haptics work perfectly. No stick drift.',
-        'price'       => '800',
-        'condition'   => 'Good',
-        'category'    => 'Electronics',
-        'location'    => 'Durban, KZN',
-        'img_bg'      => '#BFC8D4',
-        'img_icon'    => 'ri-gamepad-line',
-    ],
-    [
-        'title'       => 'The Alchemist — Paulo Coelho',
-        'description' => 'Paperback, read once. No highlights or writing inside. Great condition for a used book.',
-        'price'       => '50',
-        'condition'   => 'Like New',
-        'category'    => 'Books',
-        'location'    => 'Johannesburg, GP',
-        'img_bg'      => '#D4C9B8',
-        'img_icon'    => 'ri-book-open-line',
-    ],
-    [
-        'title'       => 'Nike Air Max 90 — Size 10',
-        'description' => 'Worn twice, basically new. All original packaging included. No scuffs or sole wear.',
-        'price'       => '1 200',
-        'condition'   => 'Like New',
-        'category'    => 'Clothing',
-        'location'    => 'Bloemfontein, FS',
-        'img_bg'      => '#C8D4C0',
-        'img_icon'    => 'ri-footprint-line',
-    ],
-    [
-        'title'       => 'IKEA BILLY Bookcase — White',
-        'description' => 'Solid condition, some minor shelf scuffs. All fittings included. Disassembled for easy transport.',
-        'price'       => '450',
-        'condition'   => 'Good',
-        'category'    => 'Furniture',
-        'location'    => 'Cape Town, WC',
-        'img_bg'      => '#D8CFC7',
-        'img_icon'    => 'ri-book-shelf-line',
-    ],
-    [
-        'title'       => 'PlayStation 5 DualSense Controller',
-        'description' => 'Midnight Black edition. Light use, triggers and haptics work perfectly. No stick drift.',
-        'price'       => '800',
-        'condition'   => 'Good',
-        'category'    => 'Electronics',
-        'location'    => 'Durban, KZN',
-        'img_bg'      => '#BFC8D4',
-        'img_icon'    => 'ri-gamepad-line',
-    ],
-    [
-        'title'       => 'The Alchemist — Paulo Coelho',
-        'description' => 'Paperback, read once. No highlights or writing inside. Great condition for a used book.',
-        'price'       => '50',
-        'condition'   => 'Like New',
-        'category'    => 'Books',
-        'location'    => 'Johannesburg, GP',
-        'img_bg'      => '#D4C9B8',
-        'img_icon'    => 'ri-book-open-line',
-    ],
-];
+// Featured — all active listings
+$featuredStmt = $db->prepare(
+    'SELECT l.listingID, l.title, l.description, l.price, l.itemCondition, l.category, l.location,
+            li.filename AS cover,
+            u.username AS sellerName, u.phoneNum AS sellerPhone, u.profile_upload AS sellerAvatar, u.rating AS sellerRating
+     FROM listing l
+     LEFT JOIN listing_images li ON li.listingID = l.listingID AND li.sortOrder = 0
+     JOIN user u ON u.userID = l.sellerID
+     WHERE l.status = "active"
+     ORDER BY l.createdAt DESC'
+);
+$featuredStmt->execute();
+$featured = $featuredStmt->fetchAll(PDO::FETCH_ASSOC);
 
-$featured = [
-    [
-        'title'       => 'iPhone 13 Pro — 256GB Sierra Blue',
-        'description' => 'Barely used, no scratches. Comes with original box, charger and two cases. Battery health at 97%.',
-        'price'       => '8 500',
-        'condition'   => 'Like New',
-        'category'    => 'Electronics',
-        'location'    => 'Cape Town, WC',
-        'img_bg'      => '#D9C5B2',
-        'img_icon'    => 'ri-smartphone-line',
-    ],
-    [
-        'title'       => 'Vintage Leather 3-Seater Couch',
-        'description' => 'Rich tan leather, minor wear on armrests. Solid hardwood frame. Bought in 2019, moving sale.',
-        'price'       => '2 200',
-        'condition'   => 'Good',
-        'category'    => 'Furniture',
-        'location'    => 'Johannesburg, GP',
-        'img_bg'      => '#C9B49A',
-        'img_icon'    => 'ri-sofa-line',
-    ],
-    [
-        'title'       => 'Trek Marlin 7 Mountain Bike — Medium',
-        'description' => '29" wheels, hydraulic disc brakes, recently serviced. Great condition for trail or commuting.',
-        'price'       => '3 800',
-        'condition'   => 'Good',
-        'category'    => 'Sports',
-        'location'    => 'Durban, KZN',
-        'img_bg'      => '#B5C4B1',
-        'img_icon'    => 'ri-riding-line',
-    ],
-    [
-        'title'       => 'Canon EOS 90D + 18-55mm Kit Lens',
-        'description' => 'Low shutter count (~4k), full HD video. Includes 2 batteries, 64 GB SD card and carry bag.',
-        'price'       => '12 000',
-        'condition'   => 'Like New',
-        'category'    => 'Electronics',
-        'location'    => 'Pretoria, GP',
-        'img_bg'      => '#C4B8A8',
-        'img_icon'    => 'ri-camera-3-line',
-    ],
-];
+// Recent — 8 most recently added
+$recentStmt = $db->prepare(
+    'SELECT l.listingID, l.title, l.description, l.price, l.itemCondition, l.category, l.location,
+            li.filename AS cover,
+            u.username AS sellerName, u.phoneNum AS sellerPhone, u.profile_upload AS sellerAvatar, u.rating AS sellerRating
+     FROM listing l
+     LEFT JOIN listing_images li ON li.listingID = l.listingID AND li.sortOrder = 0
+     JOIN user u ON u.userID = l.sellerID
+     WHERE l.status = "active"
+     ORDER BY l.createdAt DESC
+     LIMIT 8'
+);
+$recentStmt->execute();
+$recent = $recentStmt->fetchAll(PDO::FETCH_ASSOC);
+
+function renderCard(array $item): void {
+    $coverSrc     = $item['cover']
+        ? 'uploads/listings/' . $item['listingID'] . '/' . htmlspecialchars($item['cover'])
+        : null;
+    $avatarSrc    = $item['sellerAvatar']
+        ? 'uploads/avatars/' . htmlspecialchars($item['sellerAvatar'])
+        : null;
+    ?>
+    <div class="product-card"
+         data-listing-id="<?= htmlspecialchars($item['listingID']) ?>"
+         data-location="<?= htmlspecialchars($item['location'] ?? '') ?>">
+
+        <div class="card-img">
+            <?php if ($coverSrc): ?>
+                <img src="<?= $coverSrc ?>" alt="<?= htmlspecialchars($item['title']) ?>">
+            <?php else: ?>
+                <div class="card-img-placeholder"><i class="ri-image-line"></i></div>
+            <?php endif; ?>
+            <span class="card-condition"><?= htmlspecialchars($item['itemCondition']) ?></span>
+        </div>
+
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="card-category"><?= htmlspecialchars($item['category']) ?></span>
+                <span class="card-location">
+                    <i class="ri-map-pin-2-line"></i><?= htmlspecialchars($item['location'] ?? '') ?>
+                </span>
+            </div>
+
+            <h3 class="card-title"><?= htmlspecialchars($item['title']) ?></h3>
+            <p class="card-desc"><?= htmlspecialchars($item['description']) ?></p>
+
+            <div class="card-footer">
+                <span class="card-price">R <?= number_format((float)$item['price'], 2) ?></span>
+                <button class="card-btn"><?= t('home.view_listing') ?></button>
+            </div>
+
+            <div class="card-seller">
+                <div class="card-seller-avatar">
+                    <?php if ($avatarSrc): ?>
+                        <img src="<?= $avatarSrc ?>" alt="<?= htmlspecialchars($item['sellerName']) ?>">
+                    <?php else: ?>
+                        <i class="ri-user-line"></i>
+                    <?php endif; ?>
+                </div>
+                <div class="card-seller-details">
+                    <span class="card-seller-name"><?= htmlspecialchars($item['sellerName']) ?></span>
+                    <?php if (!empty($item['sellerPhone'])): ?>
+                        <span class="card-seller-phone"><?= htmlspecialchars($item['sellerPhone']) ?></span>
+                    <?php endif; ?>
+                    <div class="card-seller-stars">
+                        <?php renderStars(isset($item['sellerRating']) ? (float)$item['sellerRating'] : null); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <?php
+}
 ?>
 
 <div class="hero_container">
@@ -187,36 +151,13 @@ $featured = [
     </div>
 
     <div class="listing-grid">
-        <?php foreach ($featured as $item): ?>
-            <div class="product-card"
-                 data-img-bg="<?= $item['img_bg'] ?>"
-                 data-img-icon="<?= $item['img_icon'] ?>"
-                 data-location="<?= htmlspecialchars($item['location']) ?>">
-
-                <div class="card-img" style="background-color: <?= $item['img_bg'] ?>">
-                    <i class="<?= $item['img_icon'] ?>"></i>
-                    <span class="card-condition"><?= $item['condition'] ?></span>
-                </div>
-
-                <div class="card-body">
-                    <div class="card-meta">
-                        <span class="card-category"><?= $item['category'] ?></span>
-                        <span class="card-location">
-                            <i class="ri-map-pin-2-line"></i><?= $item['location'] ?>
-                        </span>
-                    </div>
-
-                    <h3 class="card-title"><?= htmlspecialchars($item['title']) ?></h3>
-                    <p class="card-desc"><?= htmlspecialchars($item['description']) ?></p>
-
-                    <div class="card-footer">
-                        <span class="card-price">R <?= $item['price'] ?></span>
-                        <button class="card-btn"><?= t('home.view_listing') ?></button>
-                    </div>
-                </div>
-
-            </div>
-        <?php endforeach; ?>
+        <?php if (empty($featured)): ?>
+            <p class="empty-listings"><?= t('home.no_listings') ?></p>
+        <?php else: ?>
+            <?php foreach ($featured as $item): ?>
+                <?php renderCard($item); ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
 
 </section>
@@ -238,36 +179,13 @@ $featured = [
     </div>
 
     <div class="listing-grid">
-        <?php foreach ($recent as $item): ?>
-            <div class="product-card"
-                 data-img-bg="<?= $item['img_bg'] ?>"
-                 data-img-icon="<?= $item['img_icon'] ?>"
-                 data-location="<?= htmlspecialchars($item['location']) ?>">
-
-                <div class="card-img" style="background-color: <?= $item['img_bg'] ?>">
-                    <i class="<?= $item['img_icon'] ?>"></i>
-                    <span class="card-condition"><?= $item['condition'] ?></span>
-                </div>
-
-                <div class="card-body">
-                    <div class="card-meta">
-                        <span class="card-category"><?= $item['category'] ?></span>
-                        <span class="card-location">
-                            <i class="ri-map-pin-2-line"></i><?= $item['location'] ?>
-                        </span>
-                    </div>
-
-                    <h3 class="card-title"><?= htmlspecialchars($item['title']) ?></h3>
-                    <p class="card-desc"><?= htmlspecialchars($item['description']) ?></p>
-
-                    <div class="card-footer">
-                        <span class="card-price">R <?= $item['price'] ?></span>
-                        <button class="card-btn"><?= t('home.view_listing') ?></button>
-                    </div>
-                </div>
-
-            </div>
-        <?php endforeach; ?>
+        <?php if (empty($recent)): ?>
+            <p class="empty-listings"><?= t('home.no_listings') ?></p>
+        <?php else: ?>
+            <?php foreach ($recent as $item): ?>
+                <?php renderCard($item); ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
 
 </section>
