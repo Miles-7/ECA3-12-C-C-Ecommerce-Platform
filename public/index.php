@@ -18,7 +18,7 @@ require __DIR__ . '/../src/helpers/rating.php';
 $page = $_GET['page'] ?? 'home';
 
 // For security purposes, a whitelist of the allowed pages
-$allowed_pages = ['home', 'profile', 'liked', 'sell', 'allProducts', 'product'];
+$allowed_pages = ['home', 'profile', 'liked', 'sell', 'allProducts', 'product', 'adminDashboard'];
 
 // check if the provided page via user input is in fact in the array of allowed pages
 if (!in_array($page, $allowed_pages)) {
@@ -76,6 +76,10 @@ if (!in_array($page, $allowed_pages)) {
             case "product":
                 require __DIR__ . '/pages/product.php';
                 break;
+
+            case "adminDashboard":
+                require __DIR__ . '/pages/product.php';
+                break;
         }
 
         ?>
@@ -85,7 +89,7 @@ if (!in_array($page, $allowed_pages)) {
     <?php require __DIR__ . '/../src/components/footer.php'; ?>
 
     <script>
-        document.addEventListener('click', function (e) {
+        document.addEventListener('click', function(e) {
             const card = e.target.closest('.product-card');
             if (!card) return;
 

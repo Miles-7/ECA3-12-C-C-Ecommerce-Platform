@@ -32,6 +32,13 @@ body {
     font-family: 'Inter', 'Segoe UI', sans-serif;
     background-color: var(--linen);
     color: var(--stone);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
 }
 
 /* ── Navigation ── */
@@ -1524,11 +1531,7 @@ form {
    ═══════════════════════════════════════════════════════════════ */
 
 .liked-page-wrapper {
-    min-height: calc(100vh - 64px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem 1.5rem;
+    padding: 0 1.5rem 3rem;
 }
 
 .empty-state {
@@ -2285,6 +2288,28 @@ form {
 }
 .product-buy-btn:hover { opacity: .88; }
 
+.product-save-btn {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid var(--border);
+    border-radius: 0.6rem;
+    background: var(--cream);
+    color: var(--stone-mid);
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.product-save-btn:hover,
+.product-save-btn.saved {
+    border-color: #e05555;
+    color: #e05555;
+    background: #fff0f0;
+}
+
 /* ── Profile balance ── */
 .profile-balance {
     display: flex;
@@ -2403,6 +2428,54 @@ form {
 .order-status--active    { background: #D4EDDA; color: #155724; }
 .order-status--sold      { background: var(--linen-dark); color: var(--stone-mid); }
 .order-status--inactive  { background: var(--linen-dark); color: var(--stone-mid); }
+
+/* ── Liked page ── */
+.liked-hero {
+    padding: 2.5rem 0 2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+}
+
+.liked-hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--stone);
+    margin: 0;
+}
+
+.liked-hero-sub {
+    font-size: 0.9rem;
+    color: var(--stone-mid);
+    margin-top: 0.3rem;
+}
+
+.liked-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: 5rem 0;
+    text-align: center;
+}
+
+.liked-empty-icon {
+    font-size: 3rem;
+    color: var(--stone-light);
+}
+
+.liked-empty-desc {
+    font-size: 1.05rem;
+    color: var(--stone-mid);
+    max-width: 380px;
+    line-height: 1.6;
+}
+
+.liked-empty-btn {
+    font-size: 1rem;
+    padding: 0.75rem 2rem;
+}
 
 .product-msg-btn {
     display: flex;
