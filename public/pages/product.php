@@ -33,6 +33,11 @@ $ratedStmt = $db->prepare('SELECT stars FROM rating WHERE listingID = :lid AND b
 $ratedStmt->execute([':lid' => $listingID, ':bid' => $currentUserID]);
 $existingRating = $ratedStmt->fetchColumn();
 
+// Check if the current user has saved this listing
+$savedStmt = $db->prepare('SELECT 1 FROM saved WHERE buyerID = :uid AND listingID = :lid');
+$savedStmt->execute([':uid' => $currentUserID, ':lid' => $listingID]);
+$isSaved = (bool)$savedStmt->fetchColumn();
+
 // Fetch all images for this listing ordered by sortOrder
 $imgStmt = $db->prepare(
     'SELECT filename FROM listing_images WHERE listingID = :id ORDER BY sortOrder ASC'
@@ -150,6 +155,9 @@ $condLabel = $conditionLabels[$listing['itemCondition']] ?? htmlspecialchars($li
                 <button class="product-buy-btn"><?= t('modal.buy_btn') ?></button>
                 <button class="product-msg-btn">
                     <i class="ri-message-3-line"></i><?= t('modal.message_btn') ?>
+                </button>
+                <button class="product-save-btn <?= $isSaved ? 'saved' : '' ?>" id="saveBtn">
+                    <i class="<?= $isSaved ? 'ri-heart-fill' : 'ri-heart-line' ?>"></i>
                 </button>
             </div>
 
@@ -320,7 +328,38 @@ $condLabel = $conditionLabels[$listing['itemCondition']] ?? htmlspecialchars($li
     }
 
 
-    // parse the listingID onto order when the purchase button is clicked
+    // ── Save / unsave ────────────────────────────────────
+    const saveBtn = document.getElementById('saveBtn');
+    if (saveBtn) {
+        saveBtn.addEventListener('click', async function() {
+            try {
+                const res = await fetch('../api/saved/toggle_save.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        listingID: '<?= htmlspecialchars($listingID) ?>'
+                    })
+                });
+                const result = await res.json();
+                if (result.success) {
+                    const icon = saveBtn.querySelector('i');
+                    if (result.saved) {
+                        icon.className = 'ri-heart-fill';
+                        saveBtn.classList.add('saved');
+                    } else {
+                        icon.className = 'ri-heart-line';
+                        saveBtn.classList.remove('saved');
+                    }
+                }
+            } catch (err) {
+                console.error('Save toggle failed');
+            }
+        });
+    }
+
+    // ── Buy ──────────────────────────────────────────────
     document.querySelector('.product-buy-btn').addEventListener('click', async function() {
         try {
             const res = await fetch('../api/order/create_order.php', {
