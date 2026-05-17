@@ -1,6 +1,5 @@
 <?php
-// Run this once to add the profile_picture column to an existing database.
-// Safe to run multiple times — it checks before altering.
+
 require_once __DIR__ . '/../database.php';
 
 $columns = array_column(

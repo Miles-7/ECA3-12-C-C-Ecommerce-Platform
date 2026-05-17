@@ -72,8 +72,11 @@
                 const result = await response.json();
 
                 if (result.success) {
-                    alert('<?= t('login.success') ?> ' + result.user.name);
-                    window.location.href = '../index.php';
+                    if (result.user.role === 'admin') {
+                        window.location.href = 'adminDashboard.php';
+                    } else {
+                        window.location.href = '../index.php';
+                    }
                 } else {
                     alert('<?= t('login.error') ?>: ' + result.message);
                 }

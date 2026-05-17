@@ -26,6 +26,7 @@ if (!isset($data['email']) || !isset($data['password'])) {
 $email    = trim($data['email']);
 $password = $data['password'];
 
+
 // 5. Look for user in database
 try {
     $sql  = 'SELECT * FROM user WHERE email = :email';
@@ -52,11 +53,21 @@ try {
         exit;
     }
 
+    // Check that user is not banned
+    if ($user['accountStatus'] == 'ban' || $user['accountStatus'] == 'inactive') {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Account banned or inactive'
+        ]);
+    }
+
+
     // Start session on successful login
     session_start();
     $_SESSION['user_id']    = $user['userID'];
     $_SESSION['user_name']  = $user['username'];
     $_SESSION['user_email'] = $user['email'];
+    $_SESSION['user_role']  = $user['role'];
 
     // Success response
     echo json_encode([
@@ -65,7 +76,8 @@ try {
         'user'    => [
             'id'    => $user['userID'],
             'name'  => $user['username'],
-            'email' => $user['email']
+            'email' => $user['email'],
+            'role'  => $user['role']
         ]
     ]);
 } catch (PDOException $e) {
