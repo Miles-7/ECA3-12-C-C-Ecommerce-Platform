@@ -66,13 +66,7 @@ $moreStmt = $db->prepare(
 $moreStmt->execute([':id' => $listingID, ':cat' => $listing['category']]);
 $more = $moreStmt->fetchAll(PDO::FETCH_ASSOC);
 
-$conditionLabels = [
-    'new'      => t('sell.cond_new'),
-    'like_new' => t('sell.cond_like_new'),
-    'good'     => t('sell.cond_good'),
-    'fair'     => t('sell.cond_fair'),
-    'parts'    => t('sell.cond_parts'),
-];
+
 
 $condLabel = $conditionLabels[$listing['itemCondition']] ?? htmlspecialchars($listing['itemCondition']);
 ?>
@@ -153,9 +147,11 @@ $condLabel = $conditionLabels[$listing['itemCondition']] ?? htmlspecialchars($li
 
             <div class="product-actions">
                 <button class="product-buy-btn"><?= t('modal.buy_btn') ?></button>
-                <button class="product-msg-btn">
-                    <i class="ri-message-3-line"></i><?= t('modal.message_btn') ?>
-                </button>
+                <?php if (!$isSeller): ?>
+                    <button class="product-report-btn" id="reportBtn">
+                        <i class="ri-flag-line"></i><?= t('modal.report_btn') ?>
+                    </button>
+                <?php endif; ?>
                 <button class="product-save-btn <?= $isSaved ? 'saved' : '' ?>" id="saveBtn">
                     <i class="<?= $isSaved ? 'ri-heart-fill' : 'ri-heart-line' ?>"></i>
                 </button>
@@ -258,82 +254,141 @@ $condLabel = $conditionLabels[$listing['itemCondition']] ?? htmlspecialchars($li
         </section>
     <?php endif; ?>
 
-</div>
+    <div class="reportModel-container" id="reportModel-container">
+        <div class="reportModel">
 
-<script>
-    // ── Gallery ──────────────────────────────────────────
-    document.querySelectorAll('.gallery-thumb').forEach(function(thumb) {
-        thumb.addEventListener('click', function() {
-            document.getElementById('galleryMain').src = this.dataset.src;
-            document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
+            <div class="reportModel-header">
+                <span>Report this listing</span>
+                <button class="reportModel-close" id="reportModel-close">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
 
-    // ── Star rating ──────────────────────────────────────
-    const rateStars = document.getElementById('rateStars');
-    const rateMsg = document.getElementById('rateMsg');
-    const alreadyRated = <?= $existingRating !== false ? 'true' : 'false' ?>;
+            <div class="reportModel-body">
+                <label class="reportModel-label" for="reportReason">Why are you reporting this listing?</label>
+                <select class="sell-select" id="reportReason">
+                    <option value="" disabled selected>Select a reason</option>
+                    <option value="spam">Spam</option>
+                    <option value="counterfeit">Counterfeit</option>
+                    <option value="inappropriate">Inappropriate content</option>
+                    <option value="scam">Scam</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
 
-    if (rateStars && !alreadyRated) {
-        const stars = rateStars.querySelectorAll('i');
+            <div class="reportModel-footer">
+                <button class="reportModel-cancel-btn" id="reportModel-cancel">Cancel</button>
+                <button class="reportModel-confirm-btn" id="reportModel-confirm">
+                    <i class="ri-flag-line"></i> Report
+                </button>
+            </div>
 
-        // Hover highlight
-        stars.forEach(star => {
-            star.addEventListener('mouseenter', function() {
-                const val = parseInt(this.dataset.star);
-                stars.forEach((s, i) => {
-                    s.className = i < val ? 'ri-star-fill' : 'ri-star-line';
-                });
+        </div>
+    </div>
+
+    <script>
+        // ── Gallery ──────────────────────────────────────────
+        document.querySelectorAll('.gallery-thumb').forEach(function(thumb) {
+            thumb.addEventListener('click', function() {
+                document.getElementById('galleryMain').src = this.dataset.src;
+                document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
             });
         });
 
-        rateStars.addEventListener('mouseleave', function() {
-            stars.forEach(s => s.className = 'ri-star-line');
-        });
+        // ── Star rating ──────────────────────────────────────
+        const rateStars = document.getElementById('rateStars');
+        const rateMsg = document.getElementById('rateMsg');
+        const alreadyRated = <?= $existingRating !== false ? 'true' : 'false' ?>;
 
-        // Click to submit
-        stars.forEach(star => {
-            star.addEventListener('click', async function() {
-                const selectedStars = parseInt(this.dataset.star);
+        if (rateStars && !alreadyRated) {
+            const stars = rateStars.querySelectorAll('i');
 
+            // Hover highlight
+            stars.forEach(star => {
+                star.addEventListener('mouseenter', function() {
+                    const val = parseInt(this.dataset.star);
+                    stars.forEach((s, i) => {
+                        s.className = i < val ? 'ri-star-fill' : 'ri-star-line';
+                    });
+                });
+            });
+
+            rateStars.addEventListener('mouseleave', function() {
+                stars.forEach(s => s.className = 'ri-star-line');
+            });
+
+            // Click to submit
+            stars.forEach(star => {
+                star.addEventListener('click', async function() {
+                    const selectedStars = parseInt(this.dataset.star);
+
+                    try {
+                        const res = await fetch('../api/rating/submit_rating.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                listingID: '<?= htmlspecialchars($listingID) ?>',
+                                stars: selectedStars
+                            })
+                        });
+                        const result = await res.json();
+
+                        if (result.success) {
+                            // Lock stars at submitted value
+                            stars.forEach((s, i) => {
+                                s.className = i < selectedStars ? 'ri-star-fill' : 'ri-star-line';
+                            });
+                            rateStars.style.pointerEvents = 'none';
+                            if (rateMsg) rateMsg.textContent = 'You rated this seller ' + selectedStars + ' / 5';
+                        } else {
+                            if (rateMsg) rateMsg.textContent = result.message;
+                        }
+                    } catch (err) {
+                        if (rateMsg) rateMsg.textContent = 'Something went wrong, please try again.';
+                    }
+                });
+            });
+        }
+
+
+        // ── Save / unsave ────────────────────────────────────
+        const saveBtn = document.getElementById('saveBtn');
+        if (saveBtn) {
+            saveBtn.addEventListener('click', async function() {
                 try {
-                    const res = await fetch('../api/rating/submit_rating.php', {
+                    const res = await fetch('../api/saved/toggle_save.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            listingID: '<?= htmlspecialchars($listingID) ?>',
-                            stars: selectedStars
+                            listingID: '<?= htmlspecialchars($listingID) ?>'
                         })
                     });
                     const result = await res.json();
-
                     if (result.success) {
-                        // Lock stars at submitted value
-                        stars.forEach((s, i) => {
-                            s.className = i < selectedStars ? 'ri-star-fill' : 'ri-star-line';
-                        });
-                        rateStars.style.pointerEvents = 'none';
-                        if (rateMsg) rateMsg.textContent = 'You rated this seller ' + selectedStars + ' / 5';
-                    } else {
-                        if (rateMsg) rateMsg.textContent = result.message;
+                        const icon = saveBtn.querySelector('i');
+                        if (result.saved) {
+                            icon.className = 'ri-heart-fill';
+                            saveBtn.classList.add('saved');
+                        } else {
+                            icon.className = 'ri-heart-line';
+                            saveBtn.classList.remove('saved');
+                        }
                     }
                 } catch (err) {
-                    if (rateMsg) rateMsg.textContent = 'Something went wrong, please try again.';
+                    console.error('Save toggle failed');
                 }
             });
-        });
-    }
+        }
 
-
-    // ── Save / unsave ────────────────────────────────────
-    const saveBtn = document.getElementById('saveBtn');
-    if (saveBtn) {
-        saveBtn.addEventListener('click', async function() {
+        // ── Buy ──────────────────────────────────────────────
+        document.querySelector('.product-buy-btn').addEventListener('click', async function() {
             try {
-                const res = await fetch('../api/saved/toggle_save.php', {
+                const res = await fetch('../api/order/create_order.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -343,44 +398,33 @@ $condLabel = $conditionLabels[$listing['itemCondition']] ?? htmlspecialchars($li
                     })
                 });
                 const result = await res.json();
+
                 if (result.success) {
-                    const icon = saveBtn.querySelector('i');
-                    if (result.saved) {
-                        icon.className = 'ri-heart-fill';
-                        saveBtn.classList.add('saved');
-                    } else {
-                        icon.className = 'ri-heart-line';
-                        saveBtn.classList.remove('saved');
-                    }
+                    alert('Purchase successful!');
+                    window.location.href = '?page=orders';
+                } else {
+                    alert(result.message);
                 }
             } catch (err) {
-                console.error('Save toggle failed');
+                alert('Something went wrong, please try again.');
             }
         });
-    }
 
-    // ── Buy ──────────────────────────────────────────────
-    document.querySelector('.product-buy-btn').addEventListener('click', async function() {
-        try {
-            const res = await fetch('../api/order/create_order.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    listingID: '<?= htmlspecialchars($listingID) ?>'
-                })
-            });
-            const result = await res.json();
 
-            if (result.success) {
-                alert('Purchase successful!');
-                window.location.href = '?page=orders';
-            } else {
-                alert(result.message);
-            }
-        } catch (err) {
-            alert('Something went wrong, please try again.');
-        }
-    });
-</script>
+
+
+
+        const reportContainer = document.getElementById('reportModel-container');
+
+        function openReportModal()  { reportContainer.classList.add('open'); }
+        function closeReportModal() { reportContainer.classList.remove('open'); }
+
+        const reportBtn = document.getElementById('reportBtn');
+        if (reportBtn) reportBtn.addEventListener('click', openReportModal);
+
+        document.getElementById('reportModel-close').addEventListener('click', closeReportModal);
+        document.getElementById('reportModel-cancel').addEventListener('click', closeReportModal);
+        reportContainer.addEventListener('click', function(e) {
+            if (e.target === reportContainer) closeReportModal();
+        });
+    </script>

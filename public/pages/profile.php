@@ -150,8 +150,16 @@ $sellingOrders = $sellStmt->fetchAll(PDO::FETCH_ASSOC);
                                 <p class="order-card-title"><?= htmlspecialchars($item['title']) ?></p>
                                 <p class="order-card-sub">R <?= number_format((float)$item['price'], 2) ?></p>
                             </div>
-                            <span class="order-status order-status--<?= $item['status'] ?>">
-                                <?= ucfirst($item['status']) ?>
+                            <?php
+                                $statusLabel = $item['status'] === 'inactive' ? 'Removed' : ucfirst($item['status']);
+                                $statusClass = $item['status'] === 'inactive' ? 'removed' : $item['status'];
+                            ?>
+                            <span class="order-status order-status--<?= $statusClass ?>">
+                                <?= $statusLabel ?>
+                            </span>
+
+                            <span class="edit-listing">
+                                <i onclick="navigateToEdit('<?= htmlspecialchars($item['listingID']) ?>')" class="ri-pencil-line"></i>
                             </span>
                         </div>
                     <?php endforeach; ?>
@@ -234,9 +242,9 @@ $sellingOrders = $sellStmt->fetchAll(PDO::FETCH_ASSOC);
 
 <script>
     // ── Avatar ───────────────────────────────────────────────────────
-    const avatarWrapper     = document.getElementById('avatarWrapper');
-    const avatarInput       = document.getElementById('avatarInput');
-    const avatarImg         = document.getElementById('avatarImg');
+    const avatarWrapper = document.getElementById('avatarWrapper');
+    const avatarInput = document.getElementById('avatarInput');
+    const avatarImg = document.getElementById('avatarImg');
     const avatarPlaceholder = document.getElementById('avatarPlaceholder');
 
     avatarWrapper.addEventListener('click', () => avatarInput.click());
@@ -253,7 +261,10 @@ $sellingOrders = $sellStmt->fetchAll(PDO::FETCH_ASSOC);
         body.append('avatar', file);
 
         try {
-            const res    = await fetch('../api/profile/upload_avatar.php', { method: 'POST', body });
+            const res = await fetch('../api/profile/upload_avatar.php', {
+                method: 'POST',
+                body
+            });
             const result = await res.json();
             if (!result.success) showMsg(result.message, 'error');
         } catch (err) {
@@ -264,13 +275,18 @@ $sellingOrders = $sellStmt->fetchAll(PDO::FETCH_ASSOC);
     // ── Profile form ─────────────────────────────────────────────────
     document.getElementById('profileForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-        const name  = document.getElementById('profileName').value.trim();
+        const name = document.getElementById('profileName').value.trim();
         const email = document.getElementById('profileEmail').value.trim();
         try {
-            const res    = await fetch('../api/profile/update_profile.php', {
+            const res = await fetch('../api/profile/update_profile.php', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email })
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name,
+                    email
+                })
             });
             const result = await res.json();
             showMsg(result.message, result.success ? 'success' : 'error');
@@ -304,10 +320,14 @@ $sellingOrders = $sellStmt->fetchAll(PDO::FETCH_ASSOC);
             const orderID = this.dataset.orderId;
             this.disabled = true;
             try {
-                const res    = await fetch('../api/order/ship_order.php', {
+                const res = await fetch('../api/order/ship_order.php', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ orderID })
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderID
+                    })
                 });
                 const result = await res.json();
                 if (result.success) {
@@ -332,10 +352,14 @@ $sellingOrders = $sellStmt->fetchAll(PDO::FETCH_ASSOC);
             const orderID = this.dataset.orderId;
             this.disabled = true;
             try {
-                const res    = await fetch('../api/order/confirm_delivery.php', {
+                const res = await fetch('../api/order/confirm_delivery.php', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ orderID })
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderID
+                    })
                 });
                 const result = await res.json();
                 if (result.success) {
@@ -353,4 +377,10 @@ $sellingOrders = $sellStmt->fetchAll(PDO::FETCH_ASSOC);
             }
         });
     });
+
+    // navigate to edit listing page and parse the listing ID as parameter. 
+    // set url query string to page + listingID so that I can fetch all listing info with the ID on new page                                   
+    function navigateToEdit(listingID) {
+        window.location.href = '?page=editListing&listingID=' + encodeURIComponent(listingID);
+    }
 </script>

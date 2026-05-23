@@ -72,7 +72,8 @@
   },
   "modal": {
     "buy_btn": "Thenga Ngoku",
-    "message_btn": "Thumela Umthengisi"
+    "message_btn": "Thumela Umthengisi",
+    "report_btn": "Bika"
   },
   "product": {
     "back": "Buyela Emuva",
