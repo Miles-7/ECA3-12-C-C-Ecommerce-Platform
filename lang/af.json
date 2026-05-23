@@ -72,7 +72,8 @@
   },
   "modal": {
     "buy_btn": "Koop Nou",
-    "message_btn": "Kontak Verkoper"
+    "message_btn": "Kontak Verkoper",
+    "report_btn": "Rapporteer"
   },
   "product": {
     "back": "Terug",

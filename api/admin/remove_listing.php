@@ -18,7 +18,7 @@ if (empty($listingID)) {
 
 require_once __DIR__ . '/../../config/database.php';
 
-$stmt = $db->prepare('UPDATE listing SET status = "inactive" WHERE listingID = :id');
+$stmt = $db->prepare('UPDATE listing SET status = "removed" WHERE listingID = :id');
 $stmt->execute([':id' => $listingID]);
 
 echo json_encode(['success' => true]);

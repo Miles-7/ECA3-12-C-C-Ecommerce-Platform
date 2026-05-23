@@ -72,7 +72,8 @@
   },
   "modal": {
     "buy_btn": "Buy Now",
-    "message_btn": "Message Seller"
+    "message_btn": "Message Seller",
+    "report_btn": "Report"
   },
   "product": {
     "back": "Back",

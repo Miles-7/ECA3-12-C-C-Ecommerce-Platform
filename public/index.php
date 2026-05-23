@@ -18,7 +18,7 @@ require __DIR__ . '/../src/helpers/rating.php';
 $page = $_GET['page'] ?? 'home';
 
 // For security purposes, a whitelist of the allowed pages
-$allowed_pages = ['home', 'profile', 'liked', 'sell', 'allProducts', 'product', 'adminDashboard'];
+$allowed_pages = ['home', 'profile', 'liked', 'sell', 'allProducts', 'product', 'adminDashboard', 'editListing'];
 
 // check if the provided page via user input is in fact in the array of allowed pages
 if (!in_array($page, $allowed_pages)) {
@@ -78,7 +78,11 @@ if (!in_array($page, $allowed_pages)) {
                 break;
 
             case "adminDashboard":
-                require __DIR__ . '/pages/product.php';
+                require __DIR__ . '/pages/adminDashboard.php';
+                break;
+
+            case "editListing":
+                require __DIR__ . '/pages/editListing.php';
                 break;
         }
 
@@ -95,6 +99,7 @@ if (!in_array($page, $allowed_pages)) {
 
             const listingID = card.dataset.listingId;
             if (!listingID) return;
+
 
             window.location.href = '?page=product&listingID=' + encodeURIComponent(listingID);
         });
