@@ -46,7 +46,7 @@
     </div>
 
     <script>
-        document.getElementById('lang-select').addEventListener('change', function () {
+        document.getElementById('lang-select').addEventListener('change', function() {
             const url = new URL(window.location.href);
             url.searchParams.set('lang', this.value);
             window.location.href = url.toString();
@@ -60,12 +60,35 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            const formData = { email, password };
+            if (!email) {
+                alert("Please make sure to enter an email");
+                return;
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert("Please enter a valid email");
+                return;
+            }
+
+            if (!password) {
+                alert("Please enter password");
+                return;
+            } else if (password.length < 5) {
+                alert("Password must be at least 5 characters long");
+                return;
+            }
+
+
+
+            const formData = {
+                email,
+                password
+            };
 
             try {
                 const response = await fetch('../../api/auth/login.php', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify(formData)
                 });
 

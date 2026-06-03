@@ -416,8 +416,13 @@ $condLabel = $conditionLabels[$listing['itemCondition']] ?? htmlspecialchars($li
 
         const reportContainer = document.getElementById('reportModel-container');
 
-        function openReportModal()  { reportContainer.classList.add('open'); }
-        function closeReportModal() { reportContainer.classList.remove('open'); }
+        function openReportModal() {
+            reportContainer.classList.add('open');
+        }
+
+        function closeReportModal() {
+            reportContainer.classList.remove('open');
+        }
 
         const reportBtn = document.getElementById('reportBtn');
         if (reportBtn) reportBtn.addEventListener('click', openReportModal);
@@ -427,4 +432,30 @@ $condLabel = $conditionLabels[$listing['itemCondition']] ?? htmlspecialchars($li
         reportContainer.addEventListener('click', function(e) {
             if (e.target === reportContainer) closeReportModal();
         });
+
+
+        // extract the report reason
+        const reportReason = document.getElementById('reportReason'.value);
+
+        async function sendReportInfo(reason) {
+            const formData = {
+                reason
+            };
+
+            try {
+                const res = await fetch('../api/report/report_listing.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        formData
+                    })
+
+
+                });
+            } catch (err) {
+                console.log(err)
+            }
+        }
     </script>
