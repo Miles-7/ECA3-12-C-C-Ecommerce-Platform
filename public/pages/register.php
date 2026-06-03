@@ -69,6 +69,23 @@
 
             const lang = document.getElementById('lang-select').value;
 
+            if (!email) {
+                alert("Please make sure to enter an email");
+                return;
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert("Please enter a valid email");
+                return;
+            }
+
+            if (!password) {
+                alert("Please enter password");
+                return;
+            } else if (password.length < 5) {
+                alert("Password must be at least 5 characters long");
+                return;
+            }
+
+
             const formData = {
                 name,
                 email,
