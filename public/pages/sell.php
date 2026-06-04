@@ -157,7 +157,9 @@
         const previewGrid = document.getElementById('previewGrid');
 
         // ── Initial drop zone ────────────────────────────────────────
-        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('click', (e) => {
+            if (e.target !== fileInput) fileInput.click();
+        });
 
         fileInput.addEventListener('change', e => {
             addFiles(Array.from(e.target.files));

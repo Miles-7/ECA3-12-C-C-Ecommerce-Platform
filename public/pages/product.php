@@ -434,28 +434,33 @@ $condLabel = $conditionLabels[$listing['itemCondition']] ?? htmlspecialchars($li
         });
 
 
-        // extract the report reason
-        const reportReason = document.getElementById('reportReason'.value);
+        document.getElementById('reportModel-confirm').addEventListener('click', async function() {
+            const reason = document.getElementById('reportReason').value;
 
-        async function sendReportInfo(reason) {
-            const formData = {
-                reason
-            };
+            if (!reason) {
+                alert('Please select a reason.');
+                return;
+            }
 
             try {
                 const res = await fetch('../api/report/report_listing.php', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        formData
+                        listingID: '<?= htmlspecialchars($listingID) ?>',
+                        reason
                     })
-
-
                 });
+                const result = await res.json();
+
+                if (result.success) {
+                    closeReportModal();
+                    alert('Report submitted. Thank you.');
+                } else {
+                    alert(result.message);
+                }
             } catch (err) {
-                console.log(err)
+                alert('Something went wrong, please try again.');
             }
-        }
+        });
     </script>

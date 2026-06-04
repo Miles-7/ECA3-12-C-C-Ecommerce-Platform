@@ -42,6 +42,9 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
                 <button class="admin-nav-item" data-section="orders">
                     <i class="ri-shopping-bag-line"></i> Orders
                 </button>
+                <button class="admin-nav-item" data-section="reports">
+                    <i class="ri-flag-line"></i> Reports
+                </button>
             </nav>
 
             <a href="../index.php" class="admin-back-link">
@@ -191,6 +194,31 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
                 </div>
             </section>
 
+            <!-- Reports -->
+            <section class="admin-section" id="section-reports">
+                <div class="admin-card">
+                    <div class="admin-card-head">
+                        <h3 class="admin-card-title">Reported Listings</h3>
+                    </div>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Listing</th>
+                                <th>Seller</th>
+                                <th>Reported By</th>
+                                <th>Reason</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportsBody">
+                            <tr>
+                                <td colspan="5" class="table-loading">Loading…</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
             <!-- Orders -->
             <section class="admin-section" id="section-orders">
                 <div class="admin-card">
@@ -246,7 +274,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
             overview: 'Overview',
             users: 'Users',
             listings: 'Listings',
-            orders: 'Orders'
+            orders: 'Orders',
+            reports: 'Reports'
         };
 
         navItems.forEach(btn => {
@@ -405,10 +434,28 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
                 '<tr><td colspan="6" class="table-empty">No orders yet</td></tr>';
         }
 
+        // ── Reports ───────────────────────────────────────────────
+        async function loadReports() {
+            const data = await fetch('../../api/admin/get_reports.php').then(r => r.json());
+            if (!data.success) return;
+
+            document.getElementById('reportsBody').innerHTML = data.reports.length ?
+                data.reports.map(r => `
+                <tr>
+                    <td><strong>${r.listingTitle}</strong></td>
+                    <td>${r.sellerName}</td>
+                    <td>${r.reporterName}</td>
+                    <td><span class="admin-badge">${r.reason}</span></td>
+                    <td>${fmtDate(r.createdAt)}</td>
+                </tr>`).join('') :
+                '<tr><td colspan="5" class="table-empty">No reports yet</td></tr>';
+        }
+
         loadStats();
         loadUsers();
         loadListings();
         loadOrders();
+        loadReports();
     </script>
 
 </body>

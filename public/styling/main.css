@@ -1124,6 +1124,36 @@ form {
     gap: 1rem;
 }
 
+/* ── Form actions row ── */
+.profile-form-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.profile-form-actions .sell-submit {
+    flex: 1;
+}
+
+.profile-logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0 1.25rem;
+    border: 1px solid var(--stone);
+    border-radius: 8px;
+    color: var(--stone);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.profile-logout-btn:hover {
+    background: var(--stone);
+    color: var(--linen);
+}
+
 /* ── Feedback message ── */
 .profile-message {
     font-size: 0.85rem;
@@ -1822,10 +1852,14 @@ form {
     display: flex;
     align-items: center;
     gap: 0.4rem;
+    width: 100%;
+    overflow: hidden;
 }
 
 .filter-price-range .filter-price {
     min-width: 0;
+    flex: 1;
+    width: 0;
 }
 
 .price-range-sep {
@@ -1903,7 +1937,7 @@ form {
 }
 
 @media (max-width: 480px) {
-    .filter-group { min-width: 100%; }
+    .filter-group { min-width: 100%; width: 100%; }
 }
 
 /* ═══════════════════════════════════════════════════════════════

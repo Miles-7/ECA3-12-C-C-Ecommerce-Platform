@@ -106,7 +106,12 @@ $sellingOrders = $sellStmt->fetchAll(PDO::FETCH_ASSOC);
 
                 <div id="profileMsg" class="profile-message" style="display:none;"></div>
 
-                <button type="submit" class="sell-submit"><?= t('profile.save_btn') ?></button>
+                <div class="profile-form-actions">
+                    <button type="submit" class="sell-submit"><?= t('profile.save_btn') ?></button>
+                    <a href="../api/auth/logout.php" class="profile-logout-btn">
+                        <i class="ri-logout-box-line"></i> Logout
+                    </a>
+                </div>
 
             </form>
         </div>
