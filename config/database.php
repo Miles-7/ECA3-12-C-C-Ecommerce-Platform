@@ -6,9 +6,9 @@ if ($_SERVER['HTTP_HOST'] === 'localhost') {
     $user   = "root";
     $pass   = "";
 } else {
-    $host   = "sql109.infinityfree.com";
-    $dbname = "if0_42090951_vuka_db";
-    $user   = "if0_42090951";
+    $host   = "fdb1032.awardspace.net";
+    $dbname = "4765427_vuka";
+    $user   = "4765427_vuka";
     $pass   = "HondaXr1622";
 }
 
