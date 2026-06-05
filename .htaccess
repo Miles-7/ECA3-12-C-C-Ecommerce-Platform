@@ -1,4 +1,5 @@
 Options +FollowSymLinks
 RewriteEngine On
 RewriteBase /
+RewriteCond %{QUERY_STRING} !^i=
 RewriteRule ^$ public/ [R=301,L]
