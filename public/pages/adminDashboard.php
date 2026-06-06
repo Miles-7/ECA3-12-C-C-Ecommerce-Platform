@@ -312,8 +312,13 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
             return `<span class="admin-badge ${map[status] || ''}">${status}</span>`;
         }
 
+        function tableError(tbody, cols, msg) {
+            tbody.innerHTML = `<tr><td colspan="${cols}" class="table-empty" style="color:red">${msg}</td></tr>`;
+        }
+
         // ── Stats ─────────────────────────────────────────────────
         async function loadStats() {
+            try {
             const data = await fetch('../../api/admin/stats.php').then(r => r.json());
             if (!data.success) return;
 
@@ -329,12 +334,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
             document.getElementById('recentOrdersBody').innerHTML = data.recentOrders.length ?
                 data.recentOrders.map(o => `<tr><td>${o.listingTitle}</td><td>${o.buyerName}</td><td>${fmtRand(o.amount)}</td><td>${badge(o.status)}</td></tr>`).join('') :
                 '<tr><td colspan="4" class="table-empty">No orders yet</td></tr>';
+            } catch(e) { /* stats non-critical */ }
         }
 
         // ── Users ─────────────────────────────────────────────────
         async function loadUsers() {
-            const data = await fetch('../../api/admin/user_ratings.php').then(r => r.json());
-            if (!data.success) return;
+            try {
+            const res = await fetch('../../api/admin/user_ratings.php');
+            const data = await res.json();
+            if (!data.success) { tableError(document.getElementById('usersBody'), 6, data.message || 'Failed to load users'); return; }
 
             document.getElementById('usersBody').innerHTML = data.users.length ?
                 data.users.map(u => `
@@ -350,6 +358,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
                         </button></td>
                 </tr>`).join('') :
                 '<tr><td colspan="6" class="table-empty">No users found</td></tr>';
+            } catch(e) { tableError(document.getElementById('usersBody'), 6, 'Error: ' + e.message); }
         }
 
         async function toggleBan(userID, btn) {
@@ -376,8 +385,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
 
         // ── Listings ──────────────────────────────────────────────
         async function loadListings() {
-            const data = await fetch('../../api/admin/get_listings.php').then(r => r.json());
-            if (!data.success) return;
+            try {
+            const res = await fetch('../../api/admin/get_listings.php');
+            const data = await res.json();
+            if (!data.success) { tableError(document.getElementById('listingsBody'), 6, data.message || 'Failed to load listings'); return; }
 
             document.getElementById('listingsBody').innerHTML = data.listings.length ?
                 data.listings.map(l => `
@@ -392,6 +403,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
                         : '<span class="table-na">—</span>'}</td>
                 </tr>`).join('') :
                 '<tr><td colspan="6" class="table-empty">No listings found</td></tr>';
+            } catch(e) { tableError(document.getElementById('listingsBody'), 6, 'Error: ' + e.message); }
         }
 
         async function removeListing(listingID, btn) {
@@ -418,8 +430,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
 
         // ── Orders ────────────────────────────────────────────────
         async function loadOrders() {
-            const data = await fetch('../../api/admin/get_orders.php').then(r => r.json());
-            if (!data.success) return;
+            try {
+            const res = await fetch('../../api/admin/get_orders.php');
+            const data = await res.json();
+            if (!data.success) { tableError(document.getElementById('ordersBody'), 6, data.message || 'Failed to load orders'); return; }
 
             document.getElementById('ordersBody').innerHTML = data.orders.length ?
                 data.orders.map(o => `
@@ -432,12 +446,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
                     <td>${fmtDate(o.createdAt)}</td>
                 </tr>`).join('') :
                 '<tr><td colspan="6" class="table-empty">No orders yet</td></tr>';
+            } catch(e) { tableError(document.getElementById('ordersBody'), 6, 'Error: ' + e.message); }
         }
 
         // ── Reports ───────────────────────────────────────────────
         async function loadReports() {
-            const data = await fetch('../../api/admin/get_reports.php').then(r => r.json());
-            if (!data.success) return;
+            try {
+            const res = await fetch('../../api/admin/get_reports.php');
+            const data = await res.json();
+            if (!data.success) { tableError(document.getElementById('reportsBody'), 5, data.message || 'Failed to load reports'); return; }
 
             document.getElementById('reportsBody').innerHTML = data.reports.length ?
                 data.reports.map(r => `
@@ -449,6 +466,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
                     <td>${fmtDate(r.createdAt)}</td>
                 </tr>`).join('') :
                 '<tr><td colspan="5" class="table-empty">No reports yet</td></tr>';
+            } catch(e) { tableError(document.getElementById('reportsBody'), 5, 'Error: ' + e.message); }
         }
 
         loadStats();
