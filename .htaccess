@@ -1,2 +1,2 @@
 RewriteEngine On
-RewriteRule ^$ public/ [R=301,L]
+RewriteRule ^$ /public/ [R=301,L]
