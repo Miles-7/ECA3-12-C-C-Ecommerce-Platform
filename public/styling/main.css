@@ -191,14 +191,11 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* [RESPONSIVE] added horizontal padding so card doesn't touch screen edges on mobile */
     padding: 1rem;
 }
 
 .container {
     background-color: var(--cream);
-    /* [RESPONSIVE] changed fixed width:440px to width:100% + max-width:440px
-       so the card stretches on small screens instead of overflowing */
     width: 100%;
     max-width: 440px;
     padding: 2.5rem;
@@ -843,23 +840,7 @@ form {
 }
 
 
-/* ============================================================
-   RESPONSIVE ADJUSTMENTS
-   Breakpoints used:
-     Mobile:  max-width 640px
-     Tablet:  max-width 768px
-   All rules below are additions only — nothing above was
-   removed, only the two marked changes to .auth-page and
-   .container were made inline above.
-   ============================================================ */
 
-/* ── Navigation (mobile) ──
-   On small screens the nav wraps into two rows:
-   row 1 → logo + sell button
-   row 2 → full-width search bar
-   The nav links are hidden on mobile to avoid clutter —
-   add a hamburger menu when you build it out.
-   [RESPONSIVE] */
 @media (max-width: 640px) {
     .main-nav {
         flex-wrap: wrap;
@@ -881,7 +862,7 @@ form {
         margin: 0;
     }
 
-    /* .main-nav .nav-right raises specificity to (0,2,0) — beats .nav-item (0,1,0) */
+
     .main-nav .nav-right {
         display: none;
         position: absolute;
@@ -927,7 +908,7 @@ form {
 /* ── Auth page container (small mobile) ──
    Reduce padding on very small screens so content
    has more room inside the card.
-   [RESPONSIVE] */
+    */
 @media (max-width: 400px) {
     .container {
         padding: 1.5rem 1.25rem;
@@ -941,7 +922,7 @@ form {
 /* ── Sell page hero ──
    Reduce the hero height on mobile so it doesn't take
    up too much of the viewport.
-   [RESPONSIVE] */
+ */
 @media (max-width: 640px) {
     .sell_hero_container {
         padding: 2rem 1.25rem;
@@ -963,7 +944,7 @@ form {
    Stack the 2-column upload grid into a single column
    on tablet and below. The .left panel spans full width
    instead of spanning 2 rows.
-   [RESPONSIVE] */
+    */
 @media (max-width: 768px) {
     .item_upload_container {
         grid-template-columns: 1fr;
@@ -983,7 +964,7 @@ form {
 
 /* ── Home page hero title ──
    Scale down the large hero title on small screens.
-   [RESPONSIVE] */
+   */
 @media (max-width: 640px) {
     #hero_title {
         font-size: 2rem;
