@@ -110,15 +110,6 @@ Contributions are welcome! Please follow these steps:
 
 This project is currently unlicensed. Please add a LICENSE file if you plan to distribute it.
 
-## 👤 Author
-
-**Miles-7**
-- GitHub: [@Miles-7](https://github.com/Miles-7)
-
-## 📞 Support
-
-For support, please open an issue on the [GitHub Issues](https://github.com/Miles-7/Full-Stack-C-2-C-Ecommerce-Platform-/issues) page.
-
 ## 🔗 Live Demo
 
 Visit the live application: [https://vuka.42web.io/public/pages/register.php](https://vuka.42web.io/public/pages/register.php)
